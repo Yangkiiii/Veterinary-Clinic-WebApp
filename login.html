@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOG IN WINDOW</title>
+    <script>
+        function validateLogin(event) {
+            event.preventDefault(); // Prevent form submission
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Check for admin account
+            if (email === 'admin@gsfe.tupcavite.edu.ph' && password === 'admin') {
+                window.location.href = 'AppointSched.html'; // Redirect to Appointment Schedule page
+            } 
+            // Check for veterinarian account
+            else if (email === 'vet@gsfe.tupcavite.edu.ph' && password === 'vet') {
+                window.location.href = 'VetWindow.html'; // Redirect to Veterinarian Dashboard page
+            } 
+            // Redirect to change password for any other account
+            else if (email && password) {
+                window.location.href = 'changepass.html'; // Redirect to Change Password page
+            } else {
+                alert('Invalid email or password. Please try again.'); // Error message
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>LOG IN WINDOW</h2>
+
+    <form onsubmit="validateLogin(event)">
+        <label for="email">Email Address:</label><br>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required tabindex="1"><br><br>
+
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" placeholder="Enter your password" maxlength="8" required tabindex="2"><br><br>
+
+        <a href="forgotPass.html" tabindex="3">Forgot password?</a><br><br>
+
+        <button type="submit" tabindex="4">Log In</button><br><br>
+
+        <a href="reg.html" tabindex="5" accesskey="r">Sign Up</a>
+    </form>
+</body>
+</html>
