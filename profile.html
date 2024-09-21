@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #F7E7DC;
+        }
+        .slideshow-container {
+            position: relative;
+            max-width: 100%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 700px; /* Adjust height as needed */
+            position: relative;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-text {
+            position: absolute;
+            bottom: 20px;
+            left: 30px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            transition: 0.6s ease;
+            user-select: none;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+        }
+        .prev {
+            left: 10px;
+        }
+        .next {
+            right: 10px;
+        }
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .nav-bar {
+            position: fixed; /* Keep the nav bar at the top */
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #94bbe9;
+            padding: 10px 20px; /* Padding for better spacing */
+            display: flex;
+            justify-content: center; /* Center the nav items */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1; /* Ensure it's above other content */
+        }
+
+        .nav-bar .nav-links {
+            display: flex; /* Align nav items horizontally */
+            gap: 20px; /* Add space between nav items */
+        }
+
+        .nav-bar a {
+            text-decoration: none;
+            color: #333;
+            padding: 10px 15px; /* Adjust padding for better spacing */
+            font-size: 20px; /* Adjust font size */
+        }
+
+        .nav-bar a:hover {
+            background-color: #ddd;
+            border-radius: 4px;
+        }
+
+        .content {
+            margin-top: 20px; /* Adjust space as needed */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .description {
+            max-width: 5000px; /* Set a reasonable max-width */
+            margin: 20px 0;
+        }
+
+        .book-btn {
+            display: inline-block;
+            background-color: #1a73e8;
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+        .book-btn:hover {
+            background-color: #155ab6;
+        }
+        .boxes-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .box {
+            width: 150px;
+            height: 150px;
+            background-color: #e0e0e0;
+            border: 1px solid #d0d0d0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding: 10px;
+        }
+        .box-label {
+            font-size: 14px;
+            color: #333;
+            position: absolute;
+            bottom: 10px;
+        }
+
+        .logout-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #FFBE98;
+            color: #333;
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #e0a47e;
+        }
+        .crop {
+        width: 200px;
+        height: 200px;
+        overflow: hidden;
+    }
+
+    .crop img {
+        width: 200px;
+        height: 200px;
+        margin: -5px 0 0 -55px;
+    }
+    </style>
+</head>
+<body> 
+    
+    <div class="nav-bar">
+        <div class="nav-links">
+            <a href="homepage.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="help.html">Self Help</a>
+            <a href="facilities.html">Facilities</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </div>
+
+    <!-- Slideshow Container -->
+    <div class="slideshow-container">
+        <div class="slide">
+            <img src="head1.jpg" alt="Header Image 1">
+            <div class="slide-text">Welcome to Pet Care</div>
+        </div>
+        <div class="slide">
+            <img src="head2.jpg" alt="Header Image 2">
+            <div class="slide-text">Best Services for Your Pets</div>
+        </div>
+        <div class="slide">
+            <img src="head3.jpg" alt="Header Image 3">
+            <div class="slide-text">Book Your Appointment Today</div>
+        </div>
+
+        <!-- Next and Previous Buttons -->
+        <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+        <a class="next" onclick="changeSlide(1)">&#10095;</a>
+    </div>
+
+    <div class="content">
+        <div class="description">
+            <h2>Welcome to PET CARE, Your Trusted Partner in Pet Health</h2>
+            <p>At PET CARE, we specialize in providing top-notch care for your pets with a focus on essential veterinary services. Our skilled team is dedicated to ensuring your pets receive the highest level of care in a comfortable and caring environment.</p>
+            <p><strong>Our Services Include:</strong></p>
+            <ul>
+                <li><strong>Comprehensive Checkups:</strong> Regular checkups are crucial for maintaining your pet’s health. Our thorough examinations help monitor your pet’s overall well-being and detect any potential issues early.</li>
+                <li><strong>Laboratory Testing:</strong> Our in-house lab provides a range of diagnostic tests to accurately assess your pet’s health. Quick and precise lab results allow us to make informed decisions about your pet’s care.</li>
+                <li><strong>Specialized Laboratory Services:</strong> We offer specialized laboratory services to support accurate diagnosis and effective treatment plans, ensuring your pet receives the best possible care.</li>
+            </ul>
+            <p><strong>Why Choose Us:</strong></p>
+            <ul>
+                <li><strong>Expert Care:</strong> Our experienced veterinarians and professional staff are dedicated to providing exceptional care and attention to every pet.</li>
+                <li><strong>State-of-the-Art Facilities:</strong> Our modern facilities are equipped with the latest technology to deliver accurate results and effective treatments.</li>
+                <li><strong>Compassionate Approach:</strong> We prioritize your pet’s comfort and well-being, offering a warm and supportive environment during every visit.</li>
+            </ul>
+            <p>At PET CARE, we are committed to enhancing the health and happiness of your pets through personalized care and expert services. Contact us today to schedule an appointment or learn more about our offerings.</p>
+        </div>
+        
+        <a href="appoint.html" class="book-btn">Book Your Appointment Now</a>
+    
+        <div class="boxes-container">
+            <div class="crop">
+                <img src="animal_cat.jpg"width="200" height="200" alt="animal 1">
+            </div>
+
+            <div class="crop">
+                <img src="animal_cat.jpg"width="200" height="200" alt="animal 2">   
+            </div>
+
+            <div class="crop">
+                <img src="animal_cat.jpg"width="200" height="200" alt="animal 3">   
+            </div>
+        </div>
+    </div>
+
+    <a href="login.html" class="logout-btn">Logout</a>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.getElementsByClassName('slide');
+        showSlide(currentSlide);
+
+        function showSlide(n) {
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = 'none';
+            }
+            slides[n].style.display = 'block';
+        }
+
+        function changeSlide(n) {
+            currentSlide += n;
+            if (currentSlide >= slides.length) {
+                currentSlide = 0;
+            }
+            if (currentSlide < 0) {
+                currentSlide = slides.length - 1;
+            }
+            showSlide(currentSlide);
+        }
+    </script>
+
+</body>
+</html>
