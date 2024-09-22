@@ -18,16 +18,25 @@
         </div>
     </div>
 
-    <button type="button">
-        <img src="assets/notif_btn.png" height="20" width="20">
-        Notifications button
-    </button>
-     
-    <select name="User" id="user_dropdown">
-        <option value="option1"><a href="profile.html">Profile</a></option>
-        <option value="option2"><a href="trasaction_history.html">Transaction History</a></option>
-        <option value="option3"><a href="logout.html">Logout</a></option>
-      </select>
+    <details>
+        <summary>
+            <img src="assets/icons.png" alt="Profile Icon" width="30" height="30">
+        </summary>
+        <ul>
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="TransactionHistoryPetOwner.html">Transaction History</a></li>
+            <li><a href="login.html">Logout</a></li>
+        </ul>
+    </details>
+
+    <details>
+        <summary>
+            <img src="assets/notification.png" alt="Notification Icon" width="30" height="30">
+        </summary>
+        <div>
+            <p>No notifications at the moment.</p>
+        </div>
+    </details>
 
 <!-- Home -->
     <form id="home">
