@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+
+    <script>
+        function updateProfile() {
+            // Here, you could add functionality to save the profile information
+            // For example, using AJAX to send the data to a server (this part is optional)
+
+            // After saving the data, redirect to homepage.html
+            window.location.href = "homepage.html";
+        }
+    </script>
+</head>
+<body>
+    <h2>Profile Information</h2>
+
+    <div>
+        <label>First Name:</label><br>
+        <div class="editable" contenteditable="true">Your first name</div><br>
+
+        <label>Last Name:</label><br>
+        <div class="editable" contenteditable="true">Your last name</div><br>
+
+        <label>Address:</label><br>
+        <div class="editable" contenteditable="true">Your address</div><br>
+
+        <label>Phone Number:</label><br>
+        <div class="editable" contenteditable="true">Your phone number</div><br>
+
+        <label>Password:</label><br>
+        <div class="editable" contenteditable="true">Your password</div><br>
+
+        <label>Confirm Password:</label><br>
+        <div class="editable" contenteditable="true">Your password</div><br>
+
+        <button onclick="updateProfile()">Update Profile</button>
+    </div>
+</body>
+</html>
