@@ -14,7 +14,7 @@
             <a href="#self_help">Self Help</a>
             <a href="#facilities">Facilities</a>
             <a href="#contacts">Contact</a>
-            <a href="AppointmentWindow.html">Appoint Now</a>
+            <a href="{% url 'appwindow' %}">Appoint Now</a>
         </div>
     </div>
 
@@ -23,9 +23,9 @@
             <img src="assets/icons.png" alt="Profile Icon" width="30" height="30">
         </summary>
         <ul>
-            <li><a href="profile.html">Profile</a></li>
-            <li><a href="TransactionHistoryPetOwner.html">Transaction History</a></li>
-            <li><a href="login.html">Logout</a></li>
+            <li><a href="{% url 'profile' %}">Profile</a></li>
+            <li><a href="{% url 'ownhistory' %}">Transaction History</a></li>
+            <li><a href="{% url 'index' %}">Logout</a></li>
         </ul>
     </details>
 
