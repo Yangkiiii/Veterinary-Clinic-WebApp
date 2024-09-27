@@ -10,7 +10,7 @@
 
     <h2>FORGOT PASSWORD?</h2>
 
-    <form action="mail.html" method="get">
+    <form action="{% url 'mail' %}" method="get">
         <label for="email">Email:</label><br>
         <!-- Email input with pattern to ensure it ends with @gsfe.tupcavite.edu.ph -->
         <input type="email" id="email" name="email" placeholder="Enter your email" required><br><br>
