@@ -15,11 +15,9 @@
             <h2>Records of Client</h2>
             <div class="nav-bar"></div>
             <div class="nav-links">
-                <a href="VetWindow.html">Record of Clients</a>
-                <a href="transaction_history.html">Transaction History</a>
-
+                <a href="{% url 'vet' %}">Record of Clients</a>
+                <a href="{% url 'trans' %}">Transaction History</a>
             </div>
-        </div>
             <table border="1" cellpadding="8" cellspacing="0">
                 <thead>
                     <tr>
@@ -53,22 +51,17 @@
     <div id="myModal" class="modal">
         <div class="modal-content">
             <h2 id="owner-name">Diagnosis Form</h2>
-
             <div id="diagnosis-form">
                 <form>
                     <label for="checkup-date">Check-up Date:</label><br>
                     <input type="date" id="checkup-date" name="checkup-date" required><br><br>
-
                     <label for="reason">Reason of Diagnosis:</label><br>
                     <textarea id="reason" name="reason" required></textarea><br><br>
-
                     <label for="diagnosis">Diagnosis:</label><br>
                     <textarea id="diagnosis" name="diagnosis" required></textarea><br><br>
-
                     <button type="submit">Submit</button>
                 </form>
             </div>
-
             <div id="history-form" style="display: none;">
                 <h3>Owner History Form</h3>
                 <p><strong>Check-up Date:</strong> <span id="history-checkup-date">2024-09-15</span></p>
@@ -78,5 +71,12 @@
         </div>
     </div>
 
+    <script>
+        function openModal(ownerName, hasHistory) {
+            document.getElementById('owner-name').innerText = ownerName;
+            document.getElementById('diagnosis-form').style.display = hasHistory ? 'block' : 'none';
+            document.getElementById('history-form').style.display = hasHistory ? 'none' : 'block';
+        }
+    </script>
 </body>
 </html>
