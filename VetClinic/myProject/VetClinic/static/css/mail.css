@@ -1,8 +1,8 @@
-body, html{
-    background-image: url("../Media/lock.png");
-    background-size: cover;
-    background-position: center;
-}
-.mail{
-    color: blue;
+.img_mail {
+    width: 200px; /* Set the width */
+    height: 200px; /* Set the height */
+    background-image: url("../Media/mail.png");
+    background-size: contain; /* Make sure the image fits inside the div */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-position: center; /* Center the image inside the div */
 }
