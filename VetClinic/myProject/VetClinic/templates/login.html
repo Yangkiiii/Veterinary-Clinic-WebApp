@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOG IN WINDOW</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/mail.css' %}"> <!-- Change mail.css to the right css file -->
     <script>
         function validateLogin(event) {
             event.preventDefault(); // Prevent form submission
