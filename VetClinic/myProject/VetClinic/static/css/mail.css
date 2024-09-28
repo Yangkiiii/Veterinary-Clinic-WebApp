@@ -1,0 +1,8 @@
+body, html{
+    background-image: url("../Media/lock.png");
+    background-size: cover;
+    background-position: center;
+}
+.mail{
+    color: blue;
+}
