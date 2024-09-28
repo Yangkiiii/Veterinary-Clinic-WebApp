@@ -1,0 +1,72 @@
+.img_mail {
+    width: 200px; 
+    height: 200px; 
+    object-fit: contain; /* Ensures the image is scaled properly */
+}
+.profile-icon {
+    width: 30px;   
+    height: 30px;  
+    object-fit: contain;
+}
+.notification-icon {
+    width: 30px;        
+    height: 30px;      
+    object-fit: cover;  /* Ensures the image fits inside the specified dimensions */
+}
+.lock-image {
+    width: 50px;       
+    height: 50px;       
+    object-fit: cover;  
+}
+.header-image {
+    width: 600px;        
+    height: 300px;       
+    object-fit: cover;   
+}
+.cat-image {
+    width: 100px;        
+    height: 100px;       
+    object-fit: cover;   
+}
+
+.service-image {
+    width: 600px;        
+    height: 300px;       
+    object-fit: cover;   
+}
+
+.checkup-image {
+    width: 100px;        
+    height: 100px;       
+    object-fit: cover;   
+}
+
+.self-help-image {
+    width: 600px;        
+    height: 300px;       
+    object-fit: cover;   
+}
+
+.facilities-bg-image {
+    width: 600px;        
+    height: 300px;       
+    object-fit: cover;   
+}
+
+.contacts-bg-image {
+    width: 600px;        
+    height: 300px;       
+    object-fit: cover;  
+}
+
+.gmap-image {
+    width: 100px;        
+    height: 100px;       
+    object-fit: cover;   
+}
+
+.consultation-room-image {
+    width: 100px;       
+    height: 100px;       
+    object-fit: cover;   
+}

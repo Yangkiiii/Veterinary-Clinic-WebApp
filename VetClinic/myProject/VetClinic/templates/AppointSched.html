@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Appointment</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/mail.css' %}"> <!-- Change mail.css to the right css file -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}"> <!-- Change mail.css to the right css file -->
 </head>
 <body>
 
@@ -27,7 +27,7 @@
     <main>
         <details>
             <summary>
-                <img src="assets/icons.png" alt="Profile Icon" width="30" height="30">
+                <img class="profile-icon" src="{% static 'assets/icons.png' %}" alt="Profile Icon">
             </summary>
             <ul>
                 <li><a href="profile.html">Profile</a></li>
@@ -38,7 +38,7 @@
 
         <details>
             <summary>
-                <img src="assets/notification.png" alt="Notification Icon" width="30" height="30">
+                <img class="notification-icon" src="{% static 'assets/notification.png' %}" alt="Notification Icon">
             </summary>
             <div>
                 <p>No notifications at the moment.</p>
