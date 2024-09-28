@@ -9,7 +9,7 @@
 
     <h2>CHANGE PASSWORD</h2>
 
-    <form action="{% url 'owner' %}" method="post">
+    <form action="{% url 'homepage' %}" method="post">
         {% csrf_token %}
         <label for="pass">Current Password:</label><br>
         <input type="password" id="pass" name="current_password" placeholder="Enter your current password" required><br><br>
