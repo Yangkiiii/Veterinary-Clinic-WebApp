@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/main.css' %}"> <!-- Change mail.css to the right css file -->
 </head>
 <body>
     <h2>Create Your Account</h2>
 
-    <form>
+    <form action="{% url 'index' %}" method="post">
+        {% csrf_token %}
         <label for="fname">First Name:</label><br>
         <input type="text" id="fname" name="fname" placeholder="Enter your first name" required><br><br>
 
@@ -30,6 +29,7 @@
         <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required><br><br>
 
         <button type="submit">Create Account</button>
+
     </form>
 </body>
 </html>
