@@ -1,9 +1,6 @@
-from django.shortcuts import render
-
-# Create your views here.
-
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from django.shortcuts import render, redirect
 
 def index(request):
     return render(request, 'login.html')
@@ -12,13 +9,17 @@ def registration(request):
     return render(request, 'reg.html')
 
 def forgot(request):
-    return render (request, 'forgotPass.html')
+    return render(request, 'forgotPass.html')
 
-def mail (request):
-    return render(request, 'mail.html')
+def mail(request):
+    email = request.GET.get('email', '')
+    return render(request, 'mail.html', {'email': email})
 
 def admin(request):
-    return render(request, "AppointSched.html")
+    
+    return render(request, 'AppointSched.html')
+        
+
 
 def adhistory(request):
     return render(request, "AccountHistory.html")
@@ -27,6 +28,8 @@ def adaccount(request):
     return render(request, "AccountHistory.html")
 
 def vet(request):
+
+    
     return render(request, "VetWindow.html")
 
 def trans(request):
