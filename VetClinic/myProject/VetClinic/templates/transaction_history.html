@@ -4,49 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TRANSACTION HISTORY</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/main.css' %}"> <!-- Change mail.css to the right css file -->
 </head>
 <body>
-    <h1>Veterinarian</h1>
-    <h2>Transaction History</h2>
-    <div class="nav-bar"></div>
+    <h1 id="main-title">Transaction History</h1>
+    <h2>Details</h2>
+    
+    <div class="nav-bar">
         <div class="nav-links">
-            <a href="VetWindow.html">Record of Clients</a>
-            <a href="transaction_history.html">Transaction History</a>
-
+            <a href="{% url 'admin' %}">Back</a>
+            <a href="{% url 'vet' %}">Record of Clients</a>
+            <a href="{% url 'trans' %}">Transaction History</a>
         </div>
     </div>
 
-<table style="border: 1px solid black; border-collapse: collapse;">
-    <thead>
-      <tr>
-        <th style="border: 1px solid black; padding: 5px;">Date</th>
-        <th style="border: 1px solid black; padding: 5px;">Amount</th>
-        <th style="border: 1px solid black; padding: 5px;">Account</th>
-        <th style="border: 1px solid black; padding: 5px;">Service</th>
-        <th style="border: 1px solid black; padding: 5px;">Pet Specie</th>
-      </tr>
-
-    </thead>
-    <tbody>
-      <tr>
-        <td style="border: 1px solid black; padding: 5px;">09/1/2024</td>
-        <td style="border: 1px solid black; padding: 5px;">500php</td>
-        <td style="border: 1px solid black; padding: 5px;">Jamiel</td>
-        <td style="border: 1px solid black; padding: 5px;">Check-up</td>
-        <td style="border: 1px solid black; padding: 5px;">Dog</td>
-      </tr>
-
-      <tr>
-        <td style="border: 1px solid black; padding: 5px;">09/1/2024</td>
-        <td style="border: 1px solid black; padding: 5px;">500php</td>
-        <td style="border: 1px solid black; padding: 5px;">Roberto</td>
-        <td style="border: 1px solid black; padding: 5px;">Check-up</td>
-        <td style="border: 1px solid black; padding: 5px;">Cat</td>
-      </tr>
-    </tbody>
-  </table>
-
+    <table style="border: 1px solid black; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th style="border: 1px solid black; padding: 5px;">Date</th>
+                <th style="border: 1px solid black; padding: 5px;">Amount</th>
+                <th style="border: 1px solid black; padding: 5px;">Account</th>
+                <th style="border: 1px solid black; padding: 5px;">Service</th>
+                <th style="border: 1px solid black; padding: 5px;">Pet Specie</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="border: 1px solid black; padding: 5px;">09/1/2024</td>
+                <td style="border: 1px solid black; padding: 5px;">500php</td>
+                <td style="border: 1px solid black; padding: 5px;">Jamiel</td>
+                <td style="border: 1px solid black; padding: 5px;">Check-up</td>
+                <td style="border: 1px solid black; padding: 5px;">Dog</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black; padding: 5px;">09/1/2024</td>
+                <td style="border: 1px solid black; padding: 5px;">500php</td>
+                <td style="border: 1px solid black; padding: 5px;">Roberto</td>
+                <td style="border: 1px solid black; padding: 5px;">Check-up</td>
+                <td style="border: 1px solid black; padding: 5px;">Cat</td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>
