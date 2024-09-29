@@ -4,24 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Care Appointment</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/main.css' %}"> <!-- Change mail.css to the right css file -->
+    <style>
+        .nav-links a {
+            text-decoration: none;
+            padding: 8px;
+        }
+        .nav-links a.active {
+            font-weight: bold;
+            color: blue; 
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Veterinarian</h1>
-    </header>
+   
 
     <main>
         <section>
             <h2>Records of Client</h2>
             <div class="nav-bar"></div>
             <div class="nav-links">
-                <a href="VetWindow.html">Record of Clients</a>
-                <a href="transaction_history.html">Transaction History</a>
-
+                
+                <a href="{% url 'vet' %}">Record of Clients</a>
+                <a href="{% url 'trans' %}">Transaction History</a>
             </div>
-        </div>
             <table border="1" cellpadding="8" cellspacing="0">
                 <thead>
                     <tr>
@@ -80,5 +85,12 @@
         </div>
     </div>
 
+    <script>
+        function openModal(ownerName, hasHistory) {
+            document.getElementById('owner-name').innerText = ownerName;
+            document.getElementById('diagnosis-form').style.display = hasHistory ? 'block' : 'none';
+            document.getElementById('history-form').style.display = hasHistory ? 'none' : 'block';
+        }
+    </script>
 </body>
 </html>
