@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Care Appointment</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/mains.css' %}"> <!-- Change mail.css to the right css file -->
+    
 </head>
 <body>
 
@@ -13,16 +12,16 @@
         <h1>Pet Care</h1>
         <div class="nav-bar"></div>
         <div class="nav-links">
-            <a href="homepage.html">Home</a>
+            <a href="{% url 'owner' %}">Home</a>
         </div>
         <div>
             <details>
                 <summary>
-                    <img class="profile-icon" src="{% static 'assets/icons.png' %}" alt="Profile Icon">
+                    <img src="assets/icons.png" alt="Profile Icon" width="30" height="30">
                 </summary>
                 <ul>
-                    <li><a href="profile.html">Profile</a></li>
-                    <li><a href="#transaction-history">Transaction History</a></li>
+                    <li><a href="{% url 'profile' %}">Profile</a></li>
+                    <li><a href="{% url 'ownhistory' %}">Transaction History</a></li>
                     <li><a href="login.html">Logout</a></li>
                 </ul>
             </details>
@@ -30,7 +29,7 @@
             
             <details>
                 <summary>
-                    <img class="notification-icon" src="{% static 'assets/notification.png' %}" alt="Notification Icon">
+                    <img src="assets/notification.png" alt="Notification Icon" width="30" height="30">
                 </summary>
                 <div>
                     <p>No notifications at the moment.</p>
