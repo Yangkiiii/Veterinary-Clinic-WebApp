@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account History</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/main.css' %}"> <!-- Change mail.css to the right css file -->
 </head>
 <body>
 
@@ -23,19 +21,18 @@
     <main>
         <details>
             <summary>
-                <!-- Placeholder div for the image -->
-                <img class="profile-icon" src="{% static 'assets/icons.png' %}" alt="Profile Icon">
+                <img src="assets/icons.png" alt="Profile Icon" width="30" height="30">
             </summary>
             <ul>
                 <li><a href="{% url 'profile' %}">Profile</a></li>
                 <li><a href="{% url 'trans' %}">Transaction History</a></li>
-                <li><a href="login.html">Logout</a></li>
+                <li><a href="{% url 'index' %}">Logout</a></li>
             </ul>
         </details>
 
         <details>
             <summary>
-                <img class="notification-icon" src="{% static 'assets/notification.png' %}" alt="Notification Icon">
+                <img src="assets/notification.png" alt="Notification Icon" width="30" height="30">
             </summary>
             <div>
                 <p>No notifications at the moment.</p>
