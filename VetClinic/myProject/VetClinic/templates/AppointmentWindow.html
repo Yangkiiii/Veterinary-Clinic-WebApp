@@ -27,7 +27,6 @@
                 </ul>
             </details>
             
-            
             <details>
                 <summary>
                     <img class="notification-icon" src="{% static 'Media/notification.png' %}" alt="Notification Icon">
@@ -42,7 +41,7 @@
     <main>
         <section>
             <h2>Appointment Form</h2>
-            <form>
+            <form id="appointment-form">
                 <label for="full-name">Full Name</label>
                 <input type="text" id="full-name" placeholder="Placeholder" required>
 
@@ -84,24 +83,53 @@
                 <input type="date" id="appointment-date" required>
 
                 <h3>Appointment Time (A.M ONLY)</h3>
-                <button type="button" id="time1">9:00 AM</button>
-                <button type="button" id="time2">10:00 AM</button>
-                <button type="button" id="time3">11:00 AM</button>
-                <button type="button" id="time4">12:00 PM</button><br><br>
+                <label for="appointment-time">Select Time</label>
+                <select id="appointment-time" required>
+                    <option value="">Select Time</option>
+                    <option value="9:00 AM">9:00 AM</option>
+                    <option value="10:00 AM">10:00 AM</option>
+                    <option value="11:00 AM">11:00 AM</option>
+                    <option value="12:00 PM">12:00 PM</option>
+                </select><br><br>
                 
+                <!-- Add the submit button back here -->
                 <button type="submit">Submit Appointment</button>
             </form>
 
-            <div id="receipt" class="receipt">
+            <div id="receipt" class="receipt" style="display: none;">
                 <h3>Appointment Receipt</h3>
                 <p id="receipt-id"></p>
                 <p><strong>Pet Owner's Name:</strong> <span id="receipt-owner"></span></p>
                 <p><strong>Pet Species:</strong> <span id="receipt-species"></span></p>
                 <p><strong>Reason of Appointment:</strong> <span id="receipt-reason"></span></p>
+                <p><strong>Appointment Date:</strong> <span id="receipt-date"></span></p>
                 <p><strong>Appointment Time:</strong> <span id="receipt-time"></span></p>
             </div>
         </section>
     </main>
+
+    <script>
+        document.getElementById('appointment-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting the traditional way
+
+            // Get the form values
+            const fullName = document.getElementById('full-name').value;
+            const petSpecies = document.getElementById('pet-species').value;
+            const reasonAppointment = document.getElementById('reason-appointment').value;
+            const appointmentDate = document.getElementById('appointment-date').value;
+            const appointmentTime = document.getElementById('appointment-time').value;
+
+            // Display the form values in the receipt
+            document.getElementById('receipt-owner').innerText = fullName;
+            document.getElementById('receipt-species').innerText = petSpecies;
+            document.getElementById('receipt-reason').innerText = reasonAppointment;
+            document.getElementById('receipt-date').innerText = appointmentDate;
+            document.getElementById('receipt-time').innerText = appointmentTime;
+
+            // Show the receipt section
+            document.getElementById('receipt').style.display = 'block';
+        });
+    </script>
 
 </body>
 </html>
