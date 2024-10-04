@@ -6,6 +6,29 @@
     <title>Account History</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <style>
+        /* Simple styles for search input and button */
+        #searchInput {
+            margin-bottom: 10px;
+            padding: 10px;
+            width: 300px;
+        }
+        #searchButton {
+            padding: 10px 15px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        th {
+            cursor: pointer; /* Indicate that the column headers are clickable */
+        }
+        /* Styles for the notification message */
+        #sortMessage {
+            margin-bottom: 10px;
+            padding: 10px;
+            color: #856404; /* Dark yellow text */
+            display: none; /* Hidden by default */
+        }
+    </style>
 </head>
 <body>
 
@@ -40,54 +63,108 @@
                 <p>No notifications at the moment.</p>
             </div>
         </details>
-        
-        <table border="1" cellpadding="8" cellspacing="0">
+
+        <!-- Search Input and Button -->
+        <input type="text" id="searchInput" placeholder="Search...">
+        <button id="searchButton">Search</button>
+
+        <!-- Notification Message for Sorting -->
+        <div id="sortMessage">Click on the table headers to sort the data.</div>
+
+        <table border="1" cellpadding="8" cellspacing="0" id="accountTable">
             <thead>
                 <tr>
-                    <th>Email</th>
-                    <th>Password</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Address</th>
-                    <th>Phone Number</th>
+                    <th onclick="sortTable(0)">Email</th>
+                    <th onclick="sortTable(1)">Password</th>
+                    <th onclick="sortTable(2)">First Name</th>
+                    <th onclick="sortTable(3)">Last Name</th>
+                    <th onclick="sortTable(4)">Address</th>
+                    <th onclick="sortTable(5)">Ph Number</th> <!-- Changed here -->
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>example1@example.com</td>
+                    <td>password1</td>
+                    <td>John</td>
+                    <td>Doe</td>
+                    <td>123 Main St</td>
+                    <td>(123) 456-7890</td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>example2@example.com</td>
+                    <td>password2</td>
+                    <td>Jane</td>
+                    <td>Smith</td>
+                    <td>456 Elm St</td>
+                    <td>(987) 654-3210</td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>example3@example.com</td>
+                    <td>password3</td>
+                    <td>Mike</td>
+                    <td>Johnson</td>
+                    <td>789 Oak St</td>
+                    <td>(555) 555-5555</td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>example4@example.com</td>
+                    <td>password4</td>
+                    <td>Emily</td>
+                    <td>Brown</td>
+                    <td>101 Pine St</td>
+                    <td>(444) 444-4444</td>
                 </tr>
             </tbody>
         </table>
     </main>
 
+    <script>
+        // Search Functionality
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+
+        // Event listener for the search button
+        searchButton.addEventListener('click', function() {
+            const filter = searchInput.value.toLowerCase();
+            const rows = document.querySelectorAll('#accountTable tbody tr');
+            rows.forEach(row => {
+                const cells = row.getElementsByTagName('td');
+                let match = false;
+                for (let i = 0; i < cells.length; i++) {
+                    if (cells[i].innerText.toLowerCase().includes(filter)) {
+                        match = true;
+                        break;
+                    }
+                }
+                row.style.display = match ? '' : 'none';
+            });
+        });
+
+        // Show sorting message
+        document.getElementById('sortMessage').style.display = 'block';
+
+        // Sorting Functionality
+        function sortTable(columnIndex) {
+            const table = document.getElementById('accountTable');
+            const rows = Array.from(table.rows).slice(1); // Get all rows except the header
+            const isAscending = table.dataset.sortDirection !== 'asc'; // Determine sorting order
+            table.dataset.sortDirection = isAscending ? 'asc' : 'desc';
+
+            rows.sort((rowA, rowB) => {
+                const cellA = rowA.cells[columnIndex].innerText.toLowerCase();
+                const cellB = rowB.cells[columnIndex].innerText.toLowerCase();
+
+                if (cellA < cellB) return isAscending ? -1 : 1;
+                if (cellA > cellB) return isAscending ? 1 : -1;
+                return 0;
+            });
+
+            // Append sorted rows to the table body
+            const tbody = table.querySelector('tbody');
+            tbody.innerHTML = ''; // Clear existing rows
+            rows.forEach(row => tbody.appendChild(row));
+        }
+    </script>
 </body>
 </html>
