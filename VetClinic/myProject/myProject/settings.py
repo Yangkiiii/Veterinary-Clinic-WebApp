@@ -77,8 +77,16 @@ WSGI_APPLICATION = 'myProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'vetclinic',
+        'USER': 'root',
+        'PASSWORD': '',
+        'Host': 'localhost',
+        'PORT': '3307',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
+        
     }
 }
 
@@ -120,7 +128,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 MEDIA_URL = '/Media/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR,'VetClinic','static')
 ]
 
 # Default primary key field type
