@@ -1,3 +1,8 @@
+/* Make sure the parent section has relative positioning */
+section {
+    position: relative;
+}
+
 .img_mail {
     width: 200px; 
     height: 200px; 
@@ -18,10 +23,11 @@
     height: 50px;       
     object-fit: cover;  
 }
-.header-image {
-    width: 600px;        
-    height: 300px;       
-    object-fit: cover;   
+.bg-image {
+    width: 100%;      
+    height: auto;
+    max-height: 60vh;           
+    object-fit: cover;    
 }
 .cat-image {
     width: 100px;        
@@ -29,34 +35,10 @@
     object-fit: cover;   
 }
 
-.service-image {
-    width: 600px;        
-    height: 300px;       
-    object-fit: cover;   
-}
-
 .checkup-image {
     width: 100px;        
     height: 100px;       
     object-fit: cover;   
-}
-
-.self-help-image {
-    width: 600px;        
-    height: 300px;       
-    object-fit: cover;   
-}
-
-.facilities-bg-image {
-    width: 600px;        
-    height: 300px;       
-    object-fit: cover;   
-}
-
-.contacts-bg-image {
-    width: 600px;        
-    height: 300px;       
-    object-fit: cover;  
 }
 
 .gmap-image {
@@ -69,4 +51,211 @@
     width: 100px;       
     height: 100px;       
     object-fit: cover;   
+}
+
+.custom-font-size {
+    font-size: 24px;
+    line-height: 1.5; 
+    color: #333; 
+    font-family: Helvetica Neue;
+}
+
+
+
+/* Style for the overlay text */
+.text_in_image {
+    position: absolute; 
+    top: 200px; 
+    left: 20px; 
+    color: white; 
+    background-color: rgba(0, 0, 0, 0.5); 
+    padding: 10px; 
+    font-family: 'Arial', sans-serif; 
+    font-size: 48px;
+    line-height: 1.5; 
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); 
+    z-index: 1; 
+}
+
+
+
+
+
+/* Login Popup */
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+    padding: 20px;
+    color: white;
+    text-align: center;
+    z-index: 1000; 
+    
+}
+.popup-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px;
+    text-align: center;
+}
+
+/* Close button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+
+
+
+/* Style the navigation bar */
+.nav-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #94bbe9;
+    padding: 10px 20px; 
+    padding-right: 5px; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 5;
+}
+
+/* Nav links on the left */
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-bar a {
+    text-decoration: none;
+    color: #333;
+    padding: 10px 15px;
+    font-size: 20px;
+}
+
+.nav-bar a:hover {
+    background-color: #ddd;
+    border-radius: 4px;
+}
+
+/* Right-side links (login, signup, profile, etc.) */
+.right-links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-right: 180px;
+}
+
+.notification-content,
+.profile-dropdown ul {
+    background-color: white; 
+    border: 1px solid #ccc; 
+    position: absolute; 
+    margin-top: 5px; 
+    padding: 10px; 
+    z-index: 2; 
+}
+
+.profile-dropdown ul {
+    list-style-type: none; 
+    padding: 0; 
+    margin: 0; 
+}
+
+.profile-dropdown ul li {
+    padding: 5px 10px; /* Spacing within each item */
+}
+
+.profile-dropdown ul li:hover {
+    background-color: #f0f0f0; /* Highlight on hover */
+}
+
+
+
+
+
+/* Carousel */
+.carousel {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    width: 100%; 
+}
+
+.carousel-images {
+    display: flex;
+    transition: transform 0.5s ease; 
+}
+
+.carousel-slide {
+    min-width: 33.33%; /* Each slide takes up one-third of the carousel width */
+    box-sizing: border-box; /* Include padding in the width */
+    padding: 10px; 
+}
+
+.carousel img {
+    width: 100%; 
+    height: auto; 
+    border: 2px solid #ddd; 
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    padding: 7px; /* Padding around the image */
+    margin: 0 5px; /* Margin between images */
+}
+
+button {
+    background-color: #4CAF50; 
+    color: white; 
+    border: none;
+    cursor: pointer;
+    padding: 15px; /* Adjust vertical padding */
+    width: 150px; 
+    font-size: 20px; 
+    border-radius: 5px; 
+    transition: background-color 0.3s; 
+    margin: 0 10px; 
+    z-index: 2;
+}
+
+button:hover {
+    background-color: #45a049;
 }
