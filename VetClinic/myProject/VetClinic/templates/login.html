@@ -4,49 +4,264 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOG IN WINDOW</title>
-<script>
-    function validateLogin(event) {
-        event.preventDefault(); // Prevent form submission
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <style>
+        #loginPopup {
+            display: none; /* Just to ensure the popup is hidden initially */
+        }
+    </style>
+    <script>
+        function openLoginPopup() {
+            document.getElementById("loginPopup").style.display = "block";
+        }
 
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+        function closeLoginPopup() {
+            document.getElementById("loginPopup").style.display = "none";
+        }
 
-        // Check for admin account
-        if (email === 'admin@gsfe.tupcavite.edu.ph' && password === 'admin') {
-            window.location.href = "{% url 'admin' %}"; 
-        } 
-        
-        else if (email === 'vet@gsfe.tupcavite.edu.ph' && password === 'vet') {
-            window.location.href = "{% url 'vet' %}"; 
-        } 
-        
-        else if (email && password) {
-            window.location.href = "{% url 'change' %}"; 
+        function validateLogin(event) {
+            event.preventDefault(); // Prevent form submission
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (email === 'admin@gsfe.tupcavite.edu.ph' && password === 'admin') {
+                window.location.href = "{% url 'admin' %}";
+            } else if (email === 'vet@gsfe.tupcavite.edu.ph' && password === 'vet') {
+                window.location.href = "{% url 'vet' %}";
+            } else if (email && password) {
+                window.location.href = "{% url 'change' %}";
+            } else {
+                alert('Invalid email or password. Please try again.');
+            }
+        }
+   
+        function handleCancel() {
+        const cancelOption = document.getElementById('cancel-option').value;
+        if (cancelOption === 'yes') {
+            const reason = prompt("Please provide a reason for cancellation:");
+            if (reason) {
+                alert(`Your appointment has been cancelled for the following reason: ${reason}`);
+                // Here you can add logic to update the appointment status in your system
+            } else {
+                alert("Cancellation reason not provided.");
+            }
+        } else if (cancelOption === 'no') {
+            alert("Your appointment will remain scheduled.");
         } else {
-            alert('Invalid email or password. Please try again.'); 
+            alert("Please select an option.");
         }
     }
-</script>
 
+        let currentIndex = 0; // To track the current starting index
+        const totalImages = 5; // Total number of images
+
+        function moveSlide(direction) {
+            const slides = document.querySelectorAll('.carousel-slide');
+
+            // Update the current index based on direction
+            currentIndex += direction;
+
+            // Handle wrap around
+            if (currentIndex < 0) {
+                currentIndex = 0; // Don't go beyond the first set
+            } else if (currentIndex > totalImages - 3) {
+                currentIndex = totalImages - 3; // Don't go beyond the last set
+            }
+
+            // Move the carousel by updating the transform property
+            const offset = -currentIndex * (100 / 3); // Calculate offset based on index
+            document.querySelector('.carousel-images').style.transform = `translateX(${offset}%)`;
+        }
+
+        // Initialize the carousel
+        moveSlide(0);
+
+
+
+    </script>
 </head>
 <body>
     <h2>LOG IN WINDOW</h2>
 
-    <form onsubmit="validateLogin(event)">
-        <label for="email">Email Address:</label><br>
-        <input type="email" id="email" name="email" placeholder="Enter your email" required tabindex="1"><br><br>
+    <!-- Navigation Bar -->
+    <div class="nav-bar">
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#services">Services</a>
+            <a href="#self_help">Self Help</a>
+            <a href="#facilities">Facilities</a>
+            <a href="#contacts">Contact</a>
+            <a href="{% url 'appwindow' %}">Appoint Now</a>
+        </div>
+        <div class="right-links">
+            <a href="javascript:void(0);" onclick="openLoginPopup()">Log In</a>
+            <a href="{% url 'registration' %}">Sign Up</a>
     
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" placeholder="Enter your password" maxlength="8" required tabindex="2"><br><br>
+            <!-- Right-side links (login, sign up, profile, notification) -->
+            <details class="profile-dropdown">
+                <summary>
+                    <img class="profile-icon" src="{% static 'Media/icons.png' %}" alt="Profile Icon">
+                </summary>
+                <ul>
+                    <li><a href="{% url 'profile' %}">Profile</a></li>
+                    <li><a href="{% url 'ownhistory' %}">Transaction History</a></li>
+                    <li><a href="{% url 'index' %}">Logout</a></li>
+                </ul>
+            </details>
     
-        
-        <a href="{% url 'forgot' %}" tabindex="3">Forgot password?</a><br><br>
+            <details>
+                <summary>
+                    <img class="notification-icon" src="{% static 'Media/notification.png' %}" alt="Notification Icon">
+                </summary>
+                <div class="notification-content">
+                    <p>You have an appointment scheduled for:</p>
+                    <ul>
+                        <li><strong>Date:</strong> 10/15/2024</li>
+                        <li><strong>Time:</strong> 10:00 AM</li>
+                        <li><strong>Service:</strong> Check-up</li>
+                        <li><strong>Pet Species:</strong> Dog</li>
+                    </ul>
+                    <p>Would you like to cancel this appointment?</p>
+                    <select id="cancel-option">
+                        <option value="">Select...</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                    <button onclick="handleCancel()">Submit</button>
+                </div>
+            </details>
+        </div>
+    </div>    
+
+    <!-- The Modal (Popup for Login) -->
+    <div id="loginPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closeLoginPopup()">&times;</span>
+            <h3>Log In</h3>
+
+            <form onsubmit="validateLogin(event)">
+                <label for="email">Email Address:</label><br>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required><br><br>
+                <label for="password">Password:</label><br>
+                <input type="password" id="password" name="password" placeholder="Enter your password" maxlength="8" required><br><br>
+                <a href="{% url 'forgot' %}">Forgot password?</a><br><br>
+                <button type="submit">Log In</button>
+            </form>
+        </div>
+    </div>
+
+<!-- Home Section -->
+<section id="home">
+    <p>Home</p>
+    <img class="bg-image" src="{% static 'Media/head1.jpg' %}" alt="home">
+    <div class="text_in_image">
+        <p>Walk-in hours: 1PM - 6PM</p>
+        <p>Trusted Care for Big Paws and Small</p>
+    </div>
+</section>
+
+<div class="carousel">
+    <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
     
-        <button type="submit" tabindex="4">Log In</button><br><br>
+    <div class="carousel-images">
+        <div class="carousel-slide">
+            <img src="{% static 'Media/animal_cat.jpg' %}" alt="Animal Cat">
+            <h3 style="font-size: 28px">Cat-tastic care, guaranteed</h3>
+            <p class="custom-font-size">We're feline fine about feline care, with expert veterinarians and dedicated staff</p>
+        </div>
+        <div class="carousel-slide">
+            <img src="{% static 'Media/animal_cat.jpg' %}" alt="Animal Cat">
+            <h3 style="font-size: 28px">Cat-tastic care, guaranteed</h3>
+            <p class="custom-font-size">We're feline fine about feline care, with expert veterinarians and dedicated staff</p>
+        </div>
+        <div class="carousel-slide">
+            <img src="{% static 'Media/animal_cat.jpg' %}" alt="Animal Cat">
+            <h3 style="font-size: 28px">Cat-tastic care, guaranteed</h3>
+            <p class="custom-font-size">We're feline fine about feline care, with expert veterinarians and dedicated staff</p>
+        </div>
+        <div class="carousel-slide">
+            <img src="{% static 'Media/animal_cat.jpg' %}" alt="Animal Cat">
+            <h3 style="font-size: 28px">Cat-tastic care, guaranteed</h3>
+            <p class="custom-font-size">We're feline fine about feline care, with expert veterinarians and dedicated staff</p>
+        </div>
+        <div class="carousel-slide">
+            <img src="{% static 'Media/animal_cat.jpg' %}" alt="Animal Cat">
+            <h3 style="font-size: 28px">Cat-tastic care, guaranteed</h3>
+            <p class="custom-font-size">We're feline fine about feline care, with expert veterinarians and dedicated staff</p>
+        </div>
+    </div>
     
-        
-        <a href="{% url 'registration' %}" tabindex="5" accesskey="r">Sign Up</a>
-    </form>
-    
+    <button class="next" onclick="moveSlide(1)">&#10095;</button>
+</div>
+
+
+
+<!-- Services Section -->
+<section id="services">
+    <p>Services</p>
+    <img class="bg-image" src="{% static 'Media/head2.jpg' %}" alt="Services">
+    <h3>What we offer</h3>
+    <img class="checkup-image" src="{% static 'Media/check_up.jpeg' %}" alt="Service 1">
+    <p>Check-up: Comprehensive health checks for your pet</p>
+</section>
+
+<!-- Self Help Section -->
+<section id="self_help">
+    <p>Self Help</p>
+    <img class="bg-image" src="{% static 'Media/head3.jpg' %}" alt="Self Help">
+    <div class="vid1">
+        <iframe width="225" height="400" src="https://www.youtube.com/embed/g1XJsc4lekw" 
+            title="Just a finger to befriend a cat😎 #facts" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+        </iframe>
+        <p>How to befriend a cat</p>
+    </div>
+</section>
+
+<!-- Facilities Section -->
+<section id="facilities">
+    <p>Facilities</p>
+    <img class="bg-image" src="{% static 'Media/facilities bg.png' %}" alt="Facilities">
+    <div>
+        <img class="consultation-room-image" src="{% static 'Media/Consultation_Room.jpg' %}" alt="Facility1">
+    </div>
+    <p>Consultation Room: Private and comfortable space for consultations</p>
+</section>
+
+<!-- Contacts Section -->
+<section id="contacts">
+    <p>Contacts</p>
+    <img class="bg-image" src="{% static 'Media/contacts_bg.jpg' %}" alt="Contact Us">
+    <h3>Contact Us</h3>
+    <img class="gmap-image" src="{% static 'Media/gmap.jfif' %}" alt="Map">
+    <p>Telephone: [Your Telephone]</p>
+    <p>Address: [Your Address]</p>
+    <p>Email: [Your Email]</p>
+    <p>Etc.</p>
+</section>
+
+<br><br>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>
