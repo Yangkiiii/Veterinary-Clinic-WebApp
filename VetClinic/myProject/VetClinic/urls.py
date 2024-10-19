@@ -17,4 +17,6 @@ urlpatterns = [
     path('Admin-History/', views.adhistory, name='adhistory'),  # Admin history
     path('Account-History/', views.adaccount, name='adaccount'),  # Admin account management
     path('mail/', views.mail, name= 'mail'),
+    path('login/', views.login_view, name='login')
 ]
+    

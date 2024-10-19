@@ -4,41 +4,45 @@ from django.shortcuts import render, redirect
 from .models import Accounts
 from django.contrib.auth.hashers import make_password
 
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from .forms import CustomLoginForm
+from .forms import RegistrationForm
 
 def index(request):
     return render(request, 'login.html')
 
 def registration(request):
     if request.method == 'POST':
-        # Retrieve form data
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        first_name = request.POST.get('fname')
-        last_name = request.POST.get('lname')
-        number = request.POST.get('phone')
-        address = request.POST.get('address')
-        confirm_password = request.POST.get('confirm_password')
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            # Hash the password before saving
+            account = form.save(commit=False)
+            account.password = make_password(form.cleaned_data['password'])
+            account.save()
+            return redirect('index')  # Redirect to the index or another page after registration
+    else:
+        form = RegistrationForm()
+    
+    return render(request, 'reg.html', {'form': form})
 
-        # Password confirmation check
-        if password != confirm_password:
-            return render(request, 'reg.html', {'error': 'Passwords do not match'})
+def login_view(request):
+    if request.method == 'POST':
+        form = CustomLoginForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
 
-        # Save the new account to the database
-        new_account = Accounts(
-            email=email,
-            password=password,  # Hash password
-            fname=first_name,
-            lname=last_name,
-            number=number,
-            address=address
-        )
-        new_account.save()  # Save to database
-        
-
-        # Redirect to home or another page after successful registration
-        return redirect('index')
-
-    return render(request, 'reg.html')
+            # Redirect users based on their role
+            if user.is_superuser:
+                return JsonResponse({'success': True, 'redirect_url': '/admin/'})
+            else:
+                return JsonResponse({'success': True, 'redirect_url': '/vet/'})
+        else:
+            return JsonResponse({'success': False, 'message': 'Invalid email or password'})
+    else:
+        form = CustomLoginForm()
+    return render(request, 'login.html', {'form': form})
 
 
 def forgot(request):

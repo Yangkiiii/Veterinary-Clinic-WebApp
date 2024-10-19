@@ -79,6 +79,96 @@ section {
 
 
 
+/* Registration Popup */
+.registration-popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly opaque background */
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+    z-index: 1000; 
+    border-radius: 10px; /* Rounded corners */
+}
+
+/* Popup Content */
+.registration-popup-content {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 700px; /* Adjust this value for desired width */
+    max-width: 90%; /* Ensures it doesn’t exceed the viewport width */
+    text-align: left;
+}
+
+/* Close button */
+.close {
+    color: #ff4d4d; /* Red color */
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: #cc0000; /* Darker red on hover */
+}
+
+/* Title */
+.registration-popup h3 {
+    color: #333; /* Darker text for visibility */
+    margin-bottom: 20px;
+}
+
+/* Form styles */
+.registration-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Space between inputs */
+}
+
+.registration-form input[type="email"],
+.registration-form input[type="text"],
+.registration-form input[type="tel"],
+.registration-form input[type="password"] {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px; /* Rounded input corners */
+    font-size: 16px;
+    transition: border-color 0.3s; /* Smooth border transition */
+}
+
+.registration-form input[type="email"]:focus,
+.registration-form input[type="text"]:focus,
+.registration-form input[type="tel"]:focus,
+.registration-form input[type="password"]:focus {
+    border-color: #008cba; /* Blue border on focus */
+}
+
+/* Button styles */
+.button {
+    background-color: #008cba; /* Blue */
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px; /* Rounded button corners */
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.button:hover {
+    background-color: #005f7f; /* Darker blue on hover */
+}
+
+/* Error message */
+.error-message {
+    color: red; /* Red text for errors */
+    margin-top: 10px;
+}
+
+
 
 
 /* Login Popup */
@@ -98,24 +188,10 @@ section {
 .popup-content {
     background-color: white;
     margin: 15% auto;
-    padding: 20px;
+    padding: 20px; 
     border: 1px solid #888;
     width: 300px;
     text-align: center;
-}
-
-/* Close button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover, .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
 }
 
 input[type="email"], input[type="password"] {
@@ -124,20 +200,6 @@ input[type="email"], input[type="password"] {
     margin: 8px 0;
     border: 1px solid #ccc;
     box-sizing: border-box;
-}
-
-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    margin: 10px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-}
-
-button:hover {
-    opacity: 0.8;
 }
 
 

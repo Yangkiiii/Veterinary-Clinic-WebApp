@@ -12,6 +12,7 @@
         }
     </style>
     <script>
+        /* Login Popup */
         function openLoginPopup() {
             document.getElementById("loginPopup").style.display = "block";
         }
@@ -22,20 +23,65 @@
 
         function validateLogin(event) {
             event.preventDefault(); // Prevent form submission
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+            const form = document.getElementById("login-form");
+            const formData = new FormData(form);
 
-            if (email === 'admin@gsfe.tupcavite.edu.ph' && password === 'admin') {
-                window.location.href = "{% url 'admin' %}";
-            } else if (email === 'vet@gsfe.tupcavite.edu.ph' && password === 'vet') {
-                window.location.href = "{% url 'vet' %}";
-            } else if (email && password) {
-                window.location.href = "{% url 'change' %}";
-            } else {
-                alert('Invalid email or password. Please try again.');
-            }
+            fetch("{% url 'login' %}", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = data.redirect_url;
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         }
-   
+        
+        /* Register Popup */
+        function closeRegistrationPopup() {
+            document.getElementById("registrationPopup").style.display = "none"; // Close the registration popup
+        }
+
+        // Function to open the registration popup
+        function openRegistrationPopup() {
+            document.getElementById("registrationPopup").style.display = "block"; // Show the registration popup
+        }
+        function registerUser() {
+            const form = document.getElementById("registration-form");
+            const formData = new FormData(form);
+
+            fetch("{% url 'registration' %}", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Registration successful!');
+                    closeRegistrationPopup(); // Close the popup on success
+                } else {
+                    alert(data.message); // Show error message
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+
+        /* Cancel Notif */
         function handleCancel() {
         const cancelOption = document.getElementById('cancel-option').value;
         if (cancelOption === 'yes') {
@@ -53,6 +99,7 @@
         }
     }
 
+        /* Carousel */
         let currentIndex = 0; // To track the current starting index
         const totalImages = 5; // Total number of images
 
@@ -96,7 +143,7 @@
         </div>
         <div class="right-links">
             <a href="javascript:void(0);" onclick="openLoginPopup()">Log In</a>
-            <a href="{% url 'registration' %}">Sign Up</a>
+            <a href="javascript:void(0);" onclick="openRegistrationPopup()">Sign Up</a>
     
             <!-- Right-side links (login, sign up, profile, notification) -->
             <details class="profile-dropdown">
@@ -139,15 +186,52 @@
         <div class="popup-content">
             <span class="close" onclick="closeLoginPopup()">&times;</span>
             <h3>Log In</h3>
-
-            <form onsubmit="validateLogin(event)">
+    
+            <!-- Login form that submits to Django's login view -->
+            <form method="POST" id="login-form" onsubmit="validateLogin(event)">
+                {% csrf_token %}
                 <label for="email">Email Address:</label><br>
-                <input type="email" id="email" name="email" placeholder="Enter your email" required><br><br>
+                <input type="email" id="email" name="username" placeholder="Enter your email" required><br><br>
                 <label for="password">Password:</label><br>
-                <input type="password" id="password" name="password" placeholder="Enter your password" maxlength="8" required><br><br>
-                <a href="{% url 'forgot' %}">Forgot password?</a><br><br>
-                <button type="submit">Log In</button>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required><br><br>
+                <button type="submit" class="button">Log In</button>
             </form>
+        </div>
+    </div>
+
+    <!-- The Modal (Popup for Registration) -->
+    <div id="registrationPopup" class="registration-popup">
+        <div class="registration-popup-content">
+            <span class="close" onclick="closeRegistrationPopup()">&times;</span>
+            <h3>Register</h3>
+
+            <form method="POST" id="registration-form" class="registration-form" onsubmit="event.preventDefault(); registerUser();">
+                {% csrf_token %}
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                
+                <label for="fname">First Name:</label>
+                <input type="text" id="fname" name="fname" placeholder="Enter your first name" required>
+                
+                <label for="lname">Last Name:</label>
+                <input type="text" id="lname" name="lname" placeholder="Enter your last name" required>
+                
+                <label for="number">Phone Number:</label>
+                <input type="tel" id="number" name="number" placeholder="Enter your phone number" required>
+                
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" placeholder="Enter your address" required>
+                
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                
+                <label for="confirm_password">Confirm Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+                
+                <button type="submit" class="button">Log In</button>
+            </form>
+
+            <div class="error-message" id="registration-error-message"></div>
         </div>
     </div>
 
