@@ -1,12 +1,45 @@
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.shortcuts import render, redirect
+from .models import Accounts
+from django.contrib.auth.hashers import make_password
+
 
 def index(request):
     return render(request, 'login.html')
 
 def registration(request):
+    if request.method == 'POST':
+        # Retrieve form data
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        first_name = request.POST.get('fname')
+        last_name = request.POST.get('lname')
+        number = request.POST.get('phone')
+        address = request.POST.get('address')
+        confirm_password = request.POST.get('confirm_password')
+
+        # Password confirmation check
+        if password != confirm_password:
+            return render(request, 'reg.html', {'error': 'Passwords do not match'})
+
+        # Save the new account to the database
+        new_account = Accounts(
+            email=email,
+            password=password,  # Hash password
+            fname=first_name,
+            lname=last_name,
+            number=number,
+            address=address
+        )
+        new_account.save()  # Save to database
+        
+
+        # Redirect to home or another page after successful registration
+        return redirect('index')
+
     return render(request, 'reg.html')
+
 
 def forgot(request):
     return render(request, 'forgotPass.html')
@@ -52,3 +85,4 @@ def ownhistory(request):
 
 def appwindow(request):
     return render(request, "AppointmentWindow.html")
+

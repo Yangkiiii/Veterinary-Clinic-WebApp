@@ -19,8 +19,11 @@
             </ul>
         </nav>
     </header>
-
-
+    <form></form>
+        <label for="walk-in-hours">Set Walk in Hours:</label>
+        <input type="text" id="walk-in-hours" value="Walk in Hours: 1PM-6PM">
+        <button type="button">Button</button>
+    </form>
     <main>
         <details>
             <summary>
@@ -42,7 +45,6 @@
             </div>
         </details>
 
-        <!-- Appointment Table -->
         <table border="1" cellpadding="8" cellspacing="0">
             <thead>
                 <tr>
@@ -52,135 +54,47 @@
                     <th>Date &<br> Time</th>
                     <th>Status</th>
                     <th>Payment<br>Status</th>
-                    <th>Confirm Payment</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>John Doe</td>
-                    <td>Dog</td>
-                    <td>Vaccination</td>
-                    <td>10/15/2024, 9:00 AM</td>
-                    <td>Confirmed</td>
-                    <td id="payment-cell-1">
-                        <select name="payment-status" id="payment-status-1">
-                            <option value="Paid">Paid</option>
-                            <option value="Unpaid">Unpaid</option>
-                        </select>
-                    </td>
-                    <td>
-                        <button type="button" onclick="confirmPayment(1)">Confirm</button>
-                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    
+                </tr>
+                <tr></tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    
                 </tr>
                 <tr>
-                    <td>Jane Smith</td>
-                    <td>Cat</td>
-                    <td>Check-up</td>
-                    <td>10/15/2024, 10:00 AM</td>
-                    <td>Pending</td>
-                    <td id="payment-cell-2">
-                        <select name="payment-status" id="payment-status-2">
-                            <option value="Paid">Paid</option>
-                            <option value="Unpaid">Unpaid</option>
-                        </select>
-                    </td>
-                    <td>
-                        <button type="button" onclick="confirmPayment(2)">Confirm</button>
-                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    
+                </tr>
+                <tr></tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    
                 </tr>
             </tbody>
         </table>
-
-        <!-- Admin Editor Section for Pet Species and Reason for Appointment -->
-        <section id="admin-editor">
-            <h3>Manage Appointment Options</h3>
-
-            <form>
-                <label for="walk-in-hours">Set Walk in Hours:</label>
-                <input type="text" id="walk-in-hours" value="Walk in Hours: 1PM-6PM">
-                <button type="button">Update</button>
-            </form>
-        
-
-            <!-- Edit Pet Species -->
-            <form id="species-form">
-                <h4>Edit Pet Species</h4>
-                <label for="new-species">Add New Pet Species:</label>
-                <input type="text" id="new-species" placeholder="Enter species">
-                <button type="button" onclick="addSpecies()">Add</button>
-
-                <h4>Current Pet Species</h4>
-                <ul id="species-list">
-                    <li>Dog <button onclick="removeSpecies(this)">Remove</button></li>
-                    <li>Cat <button onclick="removeSpecies(this)">Remove</button></li>
-                </ul>
-            </form>
-
-            <!-- Edit Reason for Appointment -->
-            <form id="services-form">
-                <h4>Edit Reason for Appointment</h4>
-                <label for="new-service">Add New Reason for Appointment:</label>
-                <input type="text" id="new-service" placeholder="Enter reason">
-                <button type="button" onclick="addService()">Add</button>
-
-                <h4>Current Appointment Reasons</h4>
-                <ul id="service-list">
-                    <li>Vaccination <button onclick="removeService(this)">Remove</button></li>
-                    <li>Check-up <button onclick="removeService(this)">Remove</button></li>
-                </ul>
-            </form>
-        </section>
-
-        <script>
-            // JavaScript function to confirm payment status and make the dropdown non-editable
-            function confirmPayment(rowId) {
-                const selectElement = document.getElementById(`payment-status-${rowId}`);
-                const selectedStatus = selectElement.value;
-
-                // Replace the select dropdown with a label showing the selected status
-                const paymentCell = document.getElementById(`payment-cell-${rowId}`);
-                paymentCell.innerHTML = `<span>${selectedStatus}</span>`;
-            }
-
-            // Add new species to the list
-            function addSpecies() {
-                const speciesInput = document.getElementById('new-species');
-                const speciesList = document.getElementById('species-list');
-                
-                if (speciesInput.value.trim() !== "") {
-                    const newLi = document.createElement('li');
-                    newLi.innerHTML = `${speciesInput.value} <button onclick="removeSpecies(this)">Remove</button>`;
-                    speciesList.appendChild(newLi);
-                    speciesInput.value = ""; // Clear input field
-                }
-            }
-
-            // Remove species from the list
-            function removeSpecies(button) {
-                const li = button.parentElement;
-                li.remove();
-            }
-
-            // Add new service to the list
-            function addService() {
-                const serviceInput = document.getElementById('new-service');
-                const serviceList = document.getElementById('service-list');
-                
-                if (serviceInput.value.trim() !== "") {
-                    const newLi = document.createElement('li');
-                    newLi.innerHTML = `${serviceInput.value} <button onclick="removeService(this)">Remove</button>`;
-                    serviceList.appendChild(newLi);
-                    serviceInput.value = ""; // Clear input field
-                }
-            }
-
-            // Remove service from the list
-            function removeService(button) {
-                const li = button.parentElement;
-                li.remove();
-            }
-        </script>
-
     </main>
 
 </body>

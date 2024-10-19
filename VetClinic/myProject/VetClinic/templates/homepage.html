@@ -34,23 +34,10 @@
 
     <details>
         <summary>
-            <img class="notification-icon" src="{% static 'Media/notification.png' %}" alt="Notification Icon">
+            <img class="notification-icon" src="{% static 'Media/notification.png' %}" alt="Profile Icon">
         </summary>
-        <div class="notification-content">
-            <p>You have an appointment scheduled for:</p>
-            <ul>
-                <li><strong>Date:</strong> 10/15/2024</li>
-                <li><strong>Time:</strong> 10:00 AM</li>
-                <li><strong>Service:</strong> Check-up</li>
-                <li><strong>Pet Species:</strong> Dog</li>
-            </ul>
-            <p>Would you like to cancel this appointment?</p>
-            <select id="cancel-option">
-                <option value="">Select...</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-            </select>
-            <button onclick="handleCancel()">Submit</button>
+        <div>
+            <p>No notifications at the moment.</p>
         </div>
     </details>
 
@@ -68,7 +55,7 @@
     <!-- Services Section -->
     <section id="services">
         <p>Services</p>
-        <img class="header-image" src="{% static 'Media/head2.jpg' %}" alt="Services">
+        <img class="header-image" src="{% static 'Media/head2.jpg' %}" Services>
         <h3>What we offer</h3>
         <img class="checkup-image" src="{% static 'Media/check_up.jpeg' %}" alt="Service 1">
         <p>Check-up: Comprehensive health checks for your pet</p>
@@ -95,7 +82,7 @@
         <p>Facilities</p>
         <img class="header-image" src="{% static 'Media/facilities bg.png' %}" alt="Facilities">
         <div>
-            <img class="consultation-room-image" src="{% static 'Media/Consultation_Room.jpg' %}" alt="Facility1">
+        <img class="consultation-room-image" src="{% static 'Media/Consultation_Room.jpg' %}" alt="Facility1">
         </div>
         <p>Consultation Room: Private and comfortable space for consultations</p>
     </section>
@@ -113,24 +100,5 @@
     </section>
 
     <br><br>
-
-    <script>
-        function handleCancel() {
-            const cancelOption = document.getElementById('cancel-option').value;
-            if (cancelOption === 'yes') {
-                const reason = prompt("Please provide a reason for cancellation:");
-                if (reason) {
-                    alert(`Your appointment has been cancelled for the following reason: ${reason}`);
-                    // Here you can add logic to update the appointment status in your system
-                } else {
-                    alert("Cancellation reason not provided.");
-                }
-            } else if (cancelOption === 'no') {
-                alert("Your appointment will remain scheduled.");
-            } else {
-                alert("Please select an option.");
-            }
-        }
-    </script>
 </body>
 </html>

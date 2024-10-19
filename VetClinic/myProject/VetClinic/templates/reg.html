@@ -4,32 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
+    <script>
+        function validateForm() {
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirm_password").value;
+            const phone = document.getElementById("phone").value;
+
+            // Validate password confirmation
+            if (password !== confirmPassword) {
+                alert("Passwords do not match!");
+                return false; // Prevent form submission
+            }
+
+            // Validate phone number length
+            if (phone.length !== 11) {
+                alert("Phone number must be exactly 11 digits!");
+                return false; // Prevent form submission
+            }
+
+            return true; // Allow form submission
+        }
+
+        // Enforce digit-only input using the 'input' event
+        function enforceDigitsOnly(evt) {
+            const inputField = evt.target;
+            inputField.value = inputField.value.replace(/\D/g, ''); // Replace all non-digit characters
+        }
+    </script>
 </head>
 <body>
     <h2>Create Your Account</h2>
 
-    <form action="{% url 'index' %}" method="post">
+    <form action="{% url 'registration' %}" method="post" onsubmit="return validateForm()">
         {% csrf_token %}
+        {{ form.as_p }}
+
         <label for="fname">First Name:</label><br>
-        <input type="text" id="fname" name="fname" placeholder="Enter your first name" required><br><br>
+<input type="text" id="fname" name="fname" placeholder="Enter your first name" required 
+onkeydown="return (event.keyCode !== 32 && (event.keyCode < 48 || event.keyCode > 57));"><br><br>
+
+
+        
 
         <label for="lname">Last Name:</label><br>
-        <input type="text" id="lname" name="lname" placeholder="Enter your last name" required><br><br>
+        <input type="text" id="lname" name="lname" placeholder="Enter your last name" required onkeydown="return (event.keyCode !== 32 && (event.keyCode < 48 || event.keyCode > 57));"><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required onkeydown="return (event.keyCode !== 32);"><br><br>
 
         <label for="address">Address:</label><br>
-        <input type="text" id="address" name="address" placeholder="Enter your address" required><br><br>
+        <input type="text" id="address" name="address" placeholder="Enter your address" required onkeydown="return (event.keyCode !== 32);"><br><br>
 
         <label for="phone">Phone Number:</label><br>
-        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required><br><br>
+        <!-- Use input event to enforce digit-only input -->
+        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number"  maxlength="11" pattern="^\d{11}$" required oninput="enforceDigitsOnly(event)" minlength="11" maxlength="11"><br><br>
 
         <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" placeholder="Enter your password" required><br><br>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required onkeydown="return (event.keyCode !== 32);"><br><br>
 
         <label for="confirm_password">Confirm Password:</label><br>
-        <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required><br><br>
+        <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required onkeydown="return (event.keyCode !== 32);"><br><br>
 
         <button type="submit">Create Account</button>
-
     </form>
 </body>
 </html>
