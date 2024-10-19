@@ -139,47 +139,63 @@
             <a href="#self_help">Self Help</a>
             <a href="#facilities">Facilities</a>
             <a href="#contacts">Contact</a>
-            <a href="{% url 'appwindow' %}">Appoint Now</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'appwindow' %}">Appoint Now</a>
+            {% else %}
+                <a href="javascript:void(0);" onclick="openLoginPopup()">Appoint Now</a>
+            {% endif %}
         </div>
         <div class="right-links">
-            <a href="javascript:void(0);" onclick="openLoginPopup()">Log In</a>
-            <a href="javascript:void(0);" onclick="openRegistrationPopup()">Sign Up</a>
-    
-            <!-- Right-side links (login, sign up, profile, notification) -->
-            <details class="profile-dropdown">
-                <summary>
-                    <img class="profile-icon" src="{% static 'Media/icons.png' %}" alt="Profile Icon">
-                </summary>
-                <ul>
-                    <li><a href="{% url 'profile' %}">Profile</a></li>
-                    <li><a href="{% url 'ownhistory' %}">Transaction History</a></li>
-                    <li><a href="{% url 'index' %}">Logout</a></li>
-                </ul>
-            </details>
-    
-            <details>
-                <summary>
-                    <img class="notification-icon" src="{% static 'Media/notification.png' %}" alt="Notification Icon">
-                </summary>
-                <div class="notification-content">
-                    <p>You have an appointment scheduled for:</p>
+            {% if user.is_authenticated %}
+                <li>Welcome, {{ fname }} {{ lname }}!</li>
+        
+                <!-- Profile Dropdown -->
+                <details class="profile-dropdown">
+                    <summary>
+                        <img class="profile-icon" src="{% static 'Media/icons.png' %}" alt="Profile Icon">
+                    </summary>
                     <ul>
-                        <li><strong>Date:</strong> 10/15/2024</li>
-                        <li><strong>Time:</strong> 10:00 AM</li>
-                        <li><strong>Service:</strong> Check-up</li>
-                        <li><strong>Pet Species:</strong> Dog</li>
+                        <li><a href="{% url 'profile' %}">Profile</a></li>
+                        <li><a href="{% url 'ownhistory' %}">Transaction History</a></li>
+                        <li>
+                            <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="logout-button">Logout</button>
+                            </form>
+                        </li>
+
                     </ul>
-                    <p>Would you like to cancel this appointment?</p>
-                    <select id="cancel-option">
-                        <option value="">Select...</option>
-                        <option value="yes">Yes</option>
-                        <option value="no">No</option>
-                    </select>
-                    <button onclick="handleCancel()">Submit</button>
-                </div>
-            </details>
+                </details>
+    
+                <!-- Notification Dropdown -->
+                <details class="notification-dropdown">
+                    <summary>
+                        <img class="notification-icon" src="{% static 'Media/notification.png' %}" alt="Notification Icon">
+                    </summary>
+                    <div class="notification-content">
+                        <p>You have an appointment scheduled for:</p>
+                        <ul>
+                            <li><strong>Date:</strong> 10/15/2024</li>
+                            <li><strong>Time:</strong> 10:00 AM</li>
+                            <li><strong>Service:</strong> Check-up</li>
+                            <li><strong>Pet Species:</strong> Dog</li>
+                        </ul>
+                        <p>Would you like to cancel this appointment?</p>
+                        <select id="cancel-option">
+                            <option value="">Select...</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                        <button onclick="handleCancel()">Submit</button>
+                    </div>
+                </details>
+            {% else %}
+                <a href="javascript:void(0);" onclick="openLoginPopup()">Log In</a>
+                <a href="javascript:void(0);" onclick="openRegistrationPopup()">Sign Up</a>
+            {% endif %}
         </div>
-    </div>    
+    </div>
+    
 
     <!-- The Modal (Popup for Login) -->
     <div id="loginPopup" class="popup">
@@ -228,7 +244,7 @@
                 <label for="confirm_password">Confirm Password:</label>
                 <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
                 
-                <button type="submit" class="button">Log In</button>
+                <button type="submit" class="button">Create Account</button>
             </form>
 
             <div class="error-message" id="registration-error-message"></div>

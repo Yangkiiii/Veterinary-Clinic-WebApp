@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from .forms import CustomLoginForm
 from .forms import RegistrationForm
 
+
 def index(request):
     return render(request, 'login.html')
 
@@ -16,15 +17,26 @@ def registration(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            # Hash the password before saving
+            # Save the account using the form's save method
             account = form.save(commit=False)
-            account.password = make_password(form.cleaned_data['password'])
+            account.set_password(form.cleaned_data['password'])  # Hash the password
             account.save()
+            messages.success(request, 'Registration successful! You can now log in.')
             return redirect('index')  # Redirect to the index or another page after registration
     else:
         form = RegistrationForm()
-    
+
     return render(request, 'reg.html', {'form': form})
+
+@login_required
+def owner(request):
+    # Retrieve the logged-in user's information
+    user = request.user  # Gets the current user object
+
+    return render(request, "login.html", {
+        'fname': user.fname,  # Pass first name to the template
+        'lname': user.lname   # Pass last name to the template
+    })
 
 def login_view(request):
     if request.method == 'POST':
@@ -33,16 +45,27 @@ def login_view(request):
             user = form.get_user()
             login(request, user)
 
+            # Retrieve user account details
+            account = Accounts.objects.get(email=user.email)
+            request.session['fname'] = account.fname
+            request.session['lname'] = account.lname
+
             # Redirect users based on their role
             if user.is_superuser:
                 return JsonResponse({'success': True, 'redirect_url': '/admin/'})
             else:
-                return JsonResponse({'success': True, 'redirect_url': '/vet/'})
+                return JsonResponse({'success': True, 'redirect_url': request.META.get('HTTP_REFERER', '/')})
         else:
             return JsonResponse({'success': False, 'message': 'Invalid email or password'})
     else:
         form = CustomLoginForm()
     return render(request, 'login.html', {'form': form})
+
+
+
+
+def public_view(request):
+    return render(request, 'login.html')
 
 
 def forgot(request):

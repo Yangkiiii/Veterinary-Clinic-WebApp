@@ -1,4 +1,5 @@
 from django.urls import path
+from django.contrib.auth.views import LogoutView
 from . import views
 
 urlpatterns = [
@@ -17,6 +18,6 @@ urlpatterns = [
     path('Admin-History/', views.adhistory, name='adhistory'),  # Admin history
     path('Account-History/', views.adaccount, name='adaccount'),  # Admin account management
     path('mail/', views.mail, name= 'mail'),
-    path('login/', views.login_view, name='login')
+    path('login/', views.login_view, name='login'),
+    path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
 ]
-    
