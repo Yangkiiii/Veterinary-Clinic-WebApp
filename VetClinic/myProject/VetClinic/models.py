@@ -31,6 +31,10 @@ class Animal(models.Model):  # Keep only one Animal model
 class AvailableSlot(models.Model):
     available_slot_time = models.DateTimeField(unique=True, verbose_name='Available Slot Time')  # Use DateTimeField for better time handling
     slots_left = models.IntegerField(verbose_name='Slots Left')
+    def clean(self):
+        if self.slots_left < 0:
+            raise ValidationError('Slots left cannot be negative.')
+
 
     def __str__(self):
         return f"Available Time: {self.available_slot_time}, Slots Left: {self.slots_left}"
