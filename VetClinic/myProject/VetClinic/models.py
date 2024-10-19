@@ -25,7 +25,7 @@ class Accounts(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'email'  # Use email for authentication
+    USERNAME_FIELD = 'email'  # for authentication Use email 
     REQUIRED_FIELDS = ['fname', 'lname']
 
     objects = AccountsManager()

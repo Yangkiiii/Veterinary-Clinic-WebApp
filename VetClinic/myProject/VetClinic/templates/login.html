@@ -173,6 +173,7 @@
                         <img class="notification-icon" src="{% static 'Media/notification.png' %}" alt="Notification Icon">
                     </summary>
                     <div class="notification-content">
+                        <p>Welcome, {{ fname }} {{ lname }}!</p>
                         <p>You have an appointment scheduled for:</p>
                         <ul>
                             <li><strong>Date:</strong> 10/15/2024</li>
@@ -190,6 +191,7 @@
                     </div>
                 </details>
             {% else %}
+                <li>Welcome, Guest!</li>
                 <a href="javascript:void(0);" onclick="openLoginPopup()">Log In</a>
                 <a href="javascript:void(0);" onclick="openRegistrationPopup()">Sign Up</a>
             {% endif %}

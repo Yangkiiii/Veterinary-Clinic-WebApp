@@ -9,7 +9,6 @@ from django.http import JsonResponse
 from .forms import CustomLoginForm
 from .forms import RegistrationForm
 
-
 def index(request):
     return render(request, 'login.html')
 
@@ -30,12 +29,20 @@ def registration(request):
 
 @login_required
 def owner(request):
-    # Retrieve the logged-in user's information
-    user = request.user  # Gets the current user object
+    user = request.user  # Get the logged-in user
+    print(f"Logged in user: {user.username}")
 
-    return render(request, "login.html", {
-        'fname': user.fname,  # Pass first name to the template
-        'lname': user.lname   # Pass last name to the template
+    try:
+        # Assuming Accounts has a OneToOne relation with User
+        account = Accounts.objects.get(user=user)
+        first_name = account.first_name  # Correct field name
+        print(f"First Name: {first_name}")
+    except Accounts.DoesNotExist:
+        first_name = None
+        print("No account found for this user.")
+
+    return render(request, "homepage.html", {  # Assuming you want to render homepage
+        'fname': first_name
     })
 
 def login_view(request):
@@ -60,6 +67,7 @@ def login_view(request):
     else:
         form = CustomLoginForm()
     return render(request, 'login.html', {'form': form})
+
 
 
 
