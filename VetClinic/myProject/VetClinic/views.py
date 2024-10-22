@@ -1,50 +1,39 @@
+from django.contrib.auth.hashers import make_password, check_password
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from django.shortcuts import render, redirect
 from .models import Accounts
-from django.contrib.auth.hashers import make_password
-from django.contrib.auth.decorators import login_required
+
 
 def index(request):
     if request.method == 'POST':
-        email = request.POST.get('email')
+        email = request.POST.get('email').strip()
         password = request.POST.get('password')
 
-        # Authenticate using Django's built-in method
-        account = authenticate(request, username=email, password=password)
+        # Check if the account exists
+        try:
+            account = Accounts.objects.get(email=email)
+        except Accounts.DoesNotExist:
+            return render(request, 'login.html', {
+                'error_message': 'Invalid email or password.'
+            })
 
-        if account is not None:
-            login(request, account)
-            if hasattr(account, 'role'):  
-                if account.role == 'admin':
-                    return redirect('admin')  
-                elif account.role == 'vet':
-                    return redirect('vet')  
-                else:
-                    return redirect('homepage')  # Redirect for other roles
-            else:
-                messages.error(request, 'User role not found')
-                return redirect('index')  # Redirect back to the login page
-
+        # Verify the password
+        if account.verify_password(password):
+            request.session['fname'] = account.fname
+            return redirect('owner')
         else:
-            # Show an error message if authentication fails
-            messages.error(request, 'Invalid email or password')
-            return redirect('index')  # Redirect back to the login page
+            return render(request, 'login.html', {
+                'error_message': 'Invalid email or password.'
+            })
 
-    if request.user.is_authenticated:
-        # Pass user-specific information to the template
-        context = {
-            'user_email': request.user.email,
-            'user_name': request.user.fname,
-        }
-        return render(request, 'homepage.html', context)
+    return render(request, 'login.html')
 
-    return render(request, 'homepage.html')
 
 def registration(request):
     if request.method == 'POST':
         # Retrieve form data
-        email = request.POST.get('email')
+        email = request.POST.get('email').strip()  # Strip leading/trailing spaces
         password = request.POST.get('password')
         first_name = request.POST.get('fname')
         last_name = request.POST.get('lname')
@@ -52,83 +41,78 @@ def registration(request):
         address = request.POST.get('address')
         confirm_password = request.POST.get('confirm_password')
 
+        # Check for password confirmation
         if password != confirm_password:
-            return render(request, 'SignUp.html', {'error': 'Passwords do not match'})
+            return render(request, 'reg.html', {'error': 'Passwords do not match'})
 
+        # Hash the password before saving
+        hashed_password = make_password(password)
+
+        # Create the new account
         new_account = Accounts(
             email=email,
-            password=password,  
+            password=password,  # Store the hashed password
             fname=first_name,
             lname=last_name,
             number=number,
             address=address
         )
-        new_account.save()  
-        
-        return redirect('index')
+        new_account.save()
 
-    return render(request, 'SignUp.html')
+        messages.success(request, 'Registration successful! Please log in.')
+        return redirect('index')  # Redirect to the login page after registration
 
-@login_required  # Ensure only logged-in users can access the owner homepage
-def owner(request):
-    # Pass user-specific data to the template for personalization
-    context = {
-        'user_email': request.user.email,
-        'user_name': request.user.first_name,
-    }
-    return render(request, 'homepage_owner.html', context)
-
-@login_required
-def vet(request):
-    return render(request, "VetWindow.html")
-
-@login_required
-def admin(request):
-    return render(request, 'AppointSched.html')
+    return render(request, 'reg.html')
 
 
 def forgot(request):
     return render(request, 'forgotPass.html')
 
+
 def mail(request):
     email = request.GET.get('email', '')
     return render(request, 'mail.html', {'email': email})
 
+
 def admin(request):
-    
     return render(request, 'AppointSched.html')
-        
 
 
 def adhistory(request):
     return render(request, "AccountHistory.html")
 
+
 def adaccount(request):
     return render(request, "AccountHistory.html")
 
-def vet(request):
 
-    
+def vet(request):
     return render(request, "VetWindow.html")
+
 
 def trans(request):
     return render(request, "transaction_history.html")
 
+
 def form(request):
     return render(request, "DiagnosisForm.html")
+
 
 def change(request):
     return render(request, "changepass.html")
 
+
 def owner(request):
     return render(request, "homepage.html")
+
 
 def profile(request):
     return render(request, "profile.html")
 
+
 def ownhistory(request):
     return render(request, "TransactionHistoryPetOwner.html")
 
+
 def appwindow(request):
     return render(request, "AppointmentWindow.html")
-
