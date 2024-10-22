@@ -89,15 +89,9 @@ DATABASES = {
         
     }
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 AUTH_USER_MODEL = "VetClinic.Accounts" 
-=======
-AUTH_USER_MODEL = 'VetClinic.Accounts'
->>>>>>> parent of 94007b9 (Updated)
-=======
-AUTH_USER_MODEL = 'VetClinic.Accounts'
->>>>>>> parent of 94007b9 (Updated)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
