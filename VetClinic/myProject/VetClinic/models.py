@@ -1,20 +1,50 @@
 from django.db import models
-from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
+# Define the AccountsManager class
+class AccountsManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError('The Email field must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)  # This will store password in plain text as per the previous override
+        user.save(using=self._db)
+        return user
 
-class Accounts(models.Model):
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=128)  # Example length, adjust as needed
-    fname = models.CharField(max_length=30)
-    lname = models.CharField(max_length=30)
-    number = models.CharField(max_length=15)
-    address = models.TextField()
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        return self.create_user(email, password, **extra_fields)
+
+# Define the Accounts model
+class Accounts(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(max_length=254, unique=True, verbose_name='Email')
+    fname = models.CharField(max_length=30, verbose_name='First Name')
+    lname = models.CharField(max_length=30, verbose_name='Last Name')
+    number = models.CharField(max_length=15, verbose_name='Phone Number')
+    address = models.TextField(verbose_name='Address')
+    role = models.CharField(max_length=30, default='owner', verbose_name='Role')  # Ensure this line is included
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    password = models.CharField(max_length=128, verbose_name='Password')
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['fname', 'lname']
+
+    objects = AccountsManager()
 
     def __str__(self):
-        return self.email
+        return f"{self.fname} {self.lname} ({self.email})"
 
-    def verify_password(self, raw_password):
-        return check_password(raw_password, self.password)
+    def set_password(self, raw_password):
+        """Override the set_password method to store plain text password."""
+        self.password = raw_password
+
+    def check_password(self, raw_password):
+        """Override check_password to compare raw password."""
+        return self.password == raw_password
     
 class Service(models.Model):
     type_of_service = models.CharField(max_length=30, unique=True, verbose_name='Type of Service')

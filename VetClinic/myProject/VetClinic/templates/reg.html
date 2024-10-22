@@ -34,6 +34,7 @@
 </head>
 <body>
     <h2>Create Your Account</h2>
+    
 
     <form action="{% url 'registration' %}" method="post" onsubmit="return validateForm()">
         {% csrf_token %}

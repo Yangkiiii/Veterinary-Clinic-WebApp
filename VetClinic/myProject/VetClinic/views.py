@@ -1,63 +1,84 @@
-from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from django.shortcuts import render, redirect
 from .models import Accounts
+from django.contrib.auth.decorators import login_required
+
 
 def index(request):
     if request.method == 'POST':
-        email = request.POST.get('email').strip()
+        email = request.POST.get('email')
         password = request.POST.get('password')
 
-        # Check if the account exists
-        try:
-            account = Accounts.objects.get(email=email)
-        except Accounts.DoesNotExist:
-            return render(request, 'login.html', {
-                'error_message': 'Invalid email or password.'
-            })
+        # Authenticate using Django's built-in method
+        account = authenticate(request, username=email, password=password)
 
-        # Verify the password
-        if account.password == password:  # Directly check the stored plain password
-            request.session['fname'] = account.fname
-            request.session['email'] = account.email  # Store the email in the session
-            return redirect('owner')
+        if account is not None:
+            # Log in the user
+            login(request, account)
+
+            # Redirect based on the user's role (admin, vet, or regular user)
+            if hasattr(account, 'role'):
+                if account.role == 'admin':
+                    return redirect('admin')  # Redirect to admin page
+                elif account.role == 'vet':
+                    return redirect('vet')  # Redirect to vet page
+                else:
+                    return redirect('owner')  # Redirect for other roles (pet owner)
+            else:
+                messages.error(request, 'User role not found')
+                return redirect('index')
+
         else:
-            return render(request, 'login.html', {
-                'error_message': 'Invalid email or password.'
-            })
+            # Show an error message if authentication fails
+            messages.error(request, 'Invalid email or password')
+            return redirect('index')
 
-    return render(request, 'login.html')
+    # If the user is authenticated, redirect to their homepage
+    if request.user.is_authenticated:
+        if request.user.role == 'admin':
+            return redirect('admin')
+        elif request.user.role == 'vet':
+            return redirect('vet')
+        else:
+            return redirect('owner')
+
+    return render(request, 'homepage.html')  # Default login page
 
 
 def registration(request):
     if request.method == 'POST':
-        # Retrieve form data
-        email = request.POST.get('email').strip()  # Strip leading/trailing spaces
-        password = request.POST.get('password')
-        first_name = request.POST.get('fname')
-        last_name = request.POST.get('lname')
-        number = request.POST.get('phone')
+        email = request.POST.get('email')
+        fname = request.POST.get('fname')
+        lname = request.POST.get('lname')
+        number = request.POST.get('number')
         address = request.POST.get('address')
-        confirm_password = request.POST.get('confirm_password')
+        password = request.POST.get('password')
 
-        # Check for password confirmation
-        if password != confirm_password:
-            return render(request, 'reg.html', {'error': 'Passwords do not match'})
+        # Check if the email already exists
+        if Accounts.objects.filter(email=email).exists():
+            messages.warning(request, 'An account with this email already exists.')
+            return redirect('registration')  # Redirect back to the registration page
 
-        # Create the new account
-        new_account = Accounts(
+        # Create new user if email is not taken
+        Accounts.objects.create(
             email=email,
-            password=password,  # Store the plain password
-            fname=first_name,
-            lname=last_name,
+            fname=fname,
+            lname=lname,
             number=number,
             address=address,
+            password=password  # Remember you are storing plain text here
         )
-        new_account.save()
 
-        messages.success(request, 'Registration successful! Please log in.')
-        return redirect('index')  # Redirect to the login page after registration
+        messages.success(request, 'Registration successful!')
+        return redirect('index')  # Redirect to the index page or any other page
 
     return render(request, 'reg.html')
+
+def custom_logout(request):
+    logout(request)
+    return redirect('index')
+
 
 
 def forgot(request):
