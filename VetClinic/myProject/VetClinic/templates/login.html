@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOG IN WINDOW</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+    <h2>LOG IN WINDOW</h2>
+
+    <!-- Navigation Bar -->
+    <div class="nav-bar">
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#services">Services</a>
+            <a href="#self_help">Self Help</a>
+            <a href="#facilities">Facilities</a>
+            <a href="#contacts">Contact</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'appwindow' %}">Appoint Now</a>
+            {% endif %}
+        </div>
+        <div class="right-links">
+            {% if not user.is_authenticated %}
+                <form action="{% url 'index' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="email" id="email" name="email" placeholder="Email" required oninput="this.value = this.value.replace(/\s+/g, '')">
+                    <input type="password" id="password" name="password" placeholder="Password" maxlength="8" required oninput="this.value = this.value.replace(/\s+/g, '')">
+                    <button type="submit">Log In</button>
+                </form>
+                <a href="{% url 'registration' %}">Sign Up</a>
+            {% else %}
+                <p>Welcome, {{ user.username }}!</p>
+                <a href="{% url 'logout' %}">Log Out</a>
+
+                <!-- Profile and Notification Icons -->
+                <details class="profile-dropdown">
+                    <summary>
+                        <img class="profile-icon" src="{% static 'Media/icons.png' %}" alt="Profile Icon">
+                    </summary>
+                    <ul>
+                        <li><a href="{% url 'profile' %}">Profile</a></li>
+                        <li><a href="{% url 'ownhistory' %}">Transaction History</a></li>
+                        <li><a href="{% url 'index' %}">Logout</a></li>
+                    </ul>
+                </details>
+
+                <details>
+                    <summary>
+                        <img class="notification-icon" src="{% static 'Media/notification.png' %}" alt="Notification Icon">
+                    </summary>
+                    <div class="notification-content">
+                        <p>You have an appointment scheduled for:</p>
+                        <ul>
+                            <li><strong>Date:</strong> 10/15/2024</li>
+                            <li><strong>Time:</strong> 10:00 AM</li>
+                            <li><strong>Service:</strong> Check-up</li>
+                            <li><strong>Pet Species:</strong> Dog</li>
+                        </ul>
+                        <p>Would you like to cancel this appointment?</p>
+                        <select id="cancel-option">
+                            <option value="">Select...</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                        <button onclick="handleCancel()">Submit</button>
+                    </div>
+                </details>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Home Section -->
+    <section id="home">
+        <p>Home</p>
+        <img class="bg-image" src="{% static 'Media/head1.jpg' %}" alt="home">
+        <div class="text_in_image">
+            <p>Walk-in hours: 1PM - 6PM</p>
+            <p>Trusted Care for Big Paws and Small</p>
+        </div>
+    </section>
+
+    <div class="carousel">
+        <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+        
+        <div class="carousel-images">
+            <div class="carousel-slide">
+                <img src="{% static 'Media/animal_cat.jpg' %}" alt="Animal Cat">
+                <h3 style="font-size: 28px">Cat-tastic care, guaranteed</h3>
+                <p class="custom-font-size">We're feline fine about feline care, with expert veterinarians and dedicated staff</p>
+            </div>
+            <div class="carousel-slide">
+                <img src="{% static 'Media/animal_cat.jpg' %}" alt="Animal Cat">
+                <h3 style="font-size: 28px">Cat-tastic care, guaranteed</h3>
+                <p class="custom-font-size">We're feline fine about feline care, with expert veterinarians and dedicated staff</p>
+            </div>
+            <div class="carousel-slide">
+                <img src="{% static 'Media/animal_cat.jpg' %}" alt="Animal Cat">
+                <h3 style="font-size: 28px">Cat-tastic care, guaranteed</h3>
+                <p class="custom-font-size">We're feline fine about feline care, with expert veterinarians and dedicated staff</p>
+            </div>
+            <div class="carousel-slide">
+                <img src="{% static 'Media/animal_cat.jpg' %}" alt="Animal Cat">
+                <h3 style="font-size: 28px">Cat-tastic care, guaranteed</h3>
+                <p class="custom-font-size">We're feline fine about feline care, with expert veterinarians and dedicated staff</p>
+            </div>
+            <div class="carousel-slide">
+                <img src="{% static 'Media/animal_cat.jpg' %}" alt="Animal Cat">
+                <h3 style="font-size: 28px">Cat-tastic care, guaranteed</h3>
+                <p class="custom-font-size">We're feline fine about feline care, with expert veterinarians and dedicated staff</p>
+            </div>
+        </div>
+        
+        <button class="next" onclick="moveSlide(1)">&#10095;</button>
+    </div>
+
+    <!-- Services Section -->
+    <section id="services">
+        <p>Services</p>
+        <img class="bg-image" src="{% static 'Media/head2.jpg' %}" alt="Services">
+        <h3>What we offer</h3>
+        <img class="checkup-image" src="{% static 'Media/check_up.jpeg' %}" alt="Service 1">
+        <p>Check-up: Comprehensive health checks for your pet</p>
+    </section>
+
+    <!-- Self Help Section -->
+    <section id="self_help">
+        <p>Self Help</p>
+        <img class="bg-image" src="{% static 'Media/head3.jpg' %}" alt="Self Help">
+        <div class="vid1">
+            <iframe width="225" height="400" src="https://www.youtube.com/embed/g1XJsc4lekw" 
+                title="Just a finger to befriend a cat😎 #facts" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" 
+                allowfullscreen>
+            </iframe>
+            <p>How to befriend a cat</p>
+        </div>
+    </section>
+
+    <!-- Facilities Section -->
+    <section id="facilities">
+        <p>Facilities</p>
+        <img class="bg-image" src="{% static 'Media/facilities bg.png' %}" alt="Facilities">
+        <div>
+            <img class="consultation-room-image" src="{% static 'Media/Consultation_Room.jpg' %}" alt="Facility1">
+        </div>
+        <p>Consultation Room: Private and comfortable space for consultations</p>
+    </section>
+
+    <!-- Contacts Section -->
+    <section id="contacts">
+        <p>Contacts</p>
+        <img class="bg-image" src="{% static 'Media/contacts_bg.jpg' %}" alt="Contact Us">
+        <h3>Contact Us</h3>
+        
+        <!-- Embed Google Map Iframe -->
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d999.0002465173936!2d120.9846764311283!3d14.320672202305502!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397d5dceea57021%3A0x24d11733aef4d88!2sJollibee!5e0!3m2!1sen!2sph!4v1729309303802!5m2!1sen!2sph"
+            width="300" height="250" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+        
+        <p>Telephone: [Your Telephone]</p>
+        <p>Address: [Your Address]</p>
+        <p>Email: [Your Email]</p>
+        <p>Etc.</p>
+    </section>
+
+    <br><br>
+</body>
+</html>
