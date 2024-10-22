@@ -27,7 +27,7 @@ def index(request):
                 'error_message': 'Invalid email or password.'
             })
 
-    return render(request, 'login.html')
+    return render(request, 'homepage.html')
 
 
 def registration(request):
