@@ -1,0 +1,270 @@
+/* Ensure the section has relative positioning */
+section {
+    position: relative;
+}
+
+/* Make images responsive */
+.img_mail, .profile-icon, .notification-icon, 
+.lock-image, .cat-image, .checkup-image, 
+.gmap-image, .consultation-room-image {
+    width: 100%; /* Adjust to take full width of their parent */
+    max-width: 200px; /* Set maximum width */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Ensures the image fits inside the specified dimensions */
+}
+
+/* For specific images that need smaller sizes */
+.profile-icon, .notification-icon {
+    max-width: 30px;
+}
+
+.lock-image {
+    max-width: 50px;
+}
+
+/* Background image with better scaling */
+.bg-image {
+    width: 100%; 
+    height: auto;
+    max-height: 60vh;
+    object-fit: cover;
+}
+
+/* Font sizes and layout adjustments */
+.custom-font-size {
+    font-size: 2vw; /* Use viewport width to scale font size */
+    line-height: 1.5;
+    color: #333;
+    font-family: Helvetica Neue, sans-serif;
+}
+
+/* Style for overlay text */
+.text_in_image {
+    position: absolute;
+    top: 20%; /* Adjust to be relative to screen size */
+    left: 2%; 
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 1vw;
+    font-size: 3vw; /* Responsive font size */
+    line-height: 1.5;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    z-index: 1;
+}
+
+/* Login Popup */
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+    padding: 2vw;
+    color: white;
+    text-align: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: white;
+    margin: 5vw auto;
+    padding: 2vw;
+    border: 1px solid #888;
+    width: 80vw;
+    max-width: 300px; /* Max width to prevent it from being too large */
+    text-align: center;
+}
+
+/* Close button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 2vw; /* Responsive font size */
+    font-weight: bold;
+}
+
+input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 1vw;
+    margin: 1vw 0;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    margin-left: 10px; /* Shift input boxes slightly to the right */
+}
+
+/* Button styling */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 1.5vw;
+    margin: 1vw 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1.5vw;
+    margin-left: 10px; /* Shift button slightly to the right */
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+/* Navigation bar */
+.nav-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #94bbe9;
+    padding: 1vw 2vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 5;
+}
+
+/* Nav links on the left */
+.nav-links {
+    display: flex;
+    gap: 2vw; /* Adjust spacing between links */
+}
+
+.nav-bar a {
+    text-decoration: none;
+    color: #333;
+    padding: 1vw 1.5vw;
+    font-size: 1.5vw;
+}
+
+.nav-bar a:hover {
+    background-color: #ddd;
+    border-radius: 4px;
+}
+
+/* Right-side links (login, signup, profile, etc.) */
+.right-links {
+    display: flex;
+    gap: 2vw;
+    align-items: center;
+    margin-right: 5vw; /* Adjust right margin */
+}
+
+/* Adjust login form */
+.right-links form {
+    display: flex;
+    align-items: center;
+}
+
+/* Adjust email and password input boxes and button */
+.right-links input[type="email"],
+.right-links input[type="password"],
+.right-links button {
+    margin-left: 10px; /* Shift slightly to the right */
+}
+
+/* Adjust the signup link in the navigation */
+.nav-links a.signup {
+    margin-left: 10px; /* Shift slightly to the right */
+}
+
+/* Profile dropdown styling */
+.notification-content, .profile-dropdown ul {
+    background-color: white;
+    border: 1px solid #ccc;
+    position: absolute;
+    margin-top: 0.5vw;
+    padding: 1vw;
+    z-index: 2;
+}
+
+/* Carousel */
+.carousel {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-images {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.carousel-slide {
+    min-width: 33.33%;
+    box-sizing: border-box;
+    padding: 1vw;
+}
+
+.carousel img {
+    width: 100%;
+    height: auto;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 0.5vw;
+    margin: 0.5vw;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 1.5vw;
+    width: 150px;
+    font-size: 1.5vw;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Media query for larger screens */
+@media (min-width: 1920px) {
+    .custom-font-size {
+        font-size: 24px;
+    }
+
+    .nav-bar a {
+        font-size: 22px;
+    }
+
+    button {
+        font-size: 22px;
+    }
+
+    .nav-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .nav-links a {
+        margin-right: 15px;
+    }
+
+    .right-links form {
+        display: flex;
+        align-items: center;
+    }
+
+    .right-links input[type="email"],
+    .right-links input[type="password"] {
+        margin-right: 10px;
+        padding: 5px;
+        font-size: 14px;
+        margin-left: 10px; /* Shift slightly to the right */
+    }
+
+    .right-links button {
+        padding: 5px 10px;
+        font-size: 14px;
+        margin-left: 10px; /* Shift slightly to the right */
+    }
+}

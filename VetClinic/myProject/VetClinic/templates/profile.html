@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        .spacer {
+            margin-bottom: 20px; /* Adjust spacing as needed */
+        }
+
+        .editable {
+            border: 1px solid #ccc; /* Add a border to editable fields for clarity */
+            padding: 5px;           /* Add some padding */
+            border-radius: 4px;     /* Round the corners */
+        }
+    </style>
+</head>
+<body>
+    <h2>Profile Information</h2>
+
+    <form method="POST" action="{% url 'profile' %}">
+        {% csrf_token %}
+        <div class="spacer">
+            <label>First Name:</label>
+            <input type="text" name="fname" value="{{ first_name }}" class="editable">
+        </div>
+
+        <div class="spacer">
+            <label>Last Name:</label>
+            <input type="text" name="lname" value="{{ last_name }}" class="editable">
+        </div>
+
+        <div class="spacer">
+            <label>Email:</label>
+            <input type="email" name="email" value="{{ email }}" class="editable">
+        </div>
+
+        <div class="spacer">
+            <label>Address:</label>
+            <input type="text" name="address" value="{{ address }}" class="editable">
+        </div>
+
+        <div class="spacer">
+            <label>Phone Number:</label>
+            <input type="text" name="phone" value="{{ phone_number }}" class="editable">
+        </div>
+
+        <div class="spacer">
+            <label>Password:</label>
+            <input type="password" name="password" id="password" value="{{ password }}" class="editable">
+            <label>
+                <input type="checkbox" onclick="togglePasswordVisibility('password')"> Show Password
+            </label>
+        </div>
+
+        <div class="spacer">
+            <label>Confirm Password:</label>
+            <input type="password" name="confirm_password" id="confirm_password" value="{{ confirm_password }}" class="editable">
+            <label>
+                <input type="checkbox" onclick="togglePasswordVisibility('confirm_password')"> Show Password
+            </label>
+        </div>
+
+        <button type="submit">Update Profile</button>
+    </form>
+
+    <button onclick="goBack()">Back</button>
+
+    <script>
+        function goBack() {
+            window.history.back(); // Go back to the previous page
+        }
+
+        function togglePasswordVisibility(inputId) {
+            const input = document.getElementById(inputId);
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+    </script>
+</body>
+</html>
