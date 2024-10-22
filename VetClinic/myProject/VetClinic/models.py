@@ -1,21 +1,24 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
+# Define the AccountsManager class
 class AccountsManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError('The Email field must be set')
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
-        user.set_password(password)  # Use Django's password hashing
+        user.set_password(password)  # This will store password in plain text as per the previous override
         user.save(using=self._db)
         return user
 
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
+
         return self.create_user(email, password, **extra_fields)
 
+# Define the Accounts model
 class Accounts(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=254, unique=True, verbose_name='Email')
     fname = models.CharField(max_length=30, verbose_name='First Name')
@@ -24,14 +27,24 @@ class Accounts(AbstractBaseUser, PermissionsMixin):
     address = models.TextField(verbose_name='Address')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    password = models.CharField(max_length=128, verbose_name='Password')  # Modify the password field to a CharField
 
-    USERNAME_FIELD = 'email'  # for authentication Use email 
+    USERNAME_FIELD = 'email'  # Use email for authentication
     REQUIRED_FIELDS = ['fname', 'lname']
 
-    objects = AccountsManager()
+    objects = AccountsManager()  # This is where AccountsManager is used
 
     def __str__(self):
         return f"{self.fname} {self.lname} ({self.email})"
+
+    def set_password(self, raw_password):
+        """Override the set_password method to store plain text password."""
+        self.password = raw_password
+
+    def check_password(self, raw_password):
+        """Override check_password to compare raw password."""
+        return self.password == raw_password
+
 
 
 class Service(models.Model):
@@ -52,10 +65,6 @@ class Animal(models.Model):  # Keep only one Animal model
 class AvailableSlot(models.Model):
     available_slot_time = models.DateTimeField(unique=True, verbose_name='Available Slot Time')  # Use DateTimeField for better time handling
     slots_left = models.IntegerField(verbose_name='Slots Left')
-    def clean(self):
-        if self.slots_left < 0:
-            raise ValidationError('Slots left cannot be negative.')
-
 
     def __str__(self):
         return f"Available Time: {self.available_slot_time}, Slots Left: {self.slots_left}"

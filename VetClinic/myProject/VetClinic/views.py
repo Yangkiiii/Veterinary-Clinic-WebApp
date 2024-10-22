@@ -3,77 +3,88 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from .models import Accounts
 from django.contrib.auth.hashers import make_password
-
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from .forms import CustomLoginForm
-from .forms import RegistrationForm
 
 def index(request):
-    return render(request, 'login.html')
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        # Authenticate using Django's built-in method
+        account = authenticate(request, username=email, password=password)
+
+        if account is not None:
+            login(request, account)
+            if hasattr(account, 'role'):  
+                if account.role == 'admin':
+                    return redirect('admin')  
+                elif account.role == 'vet':
+                    return redirect('vet')  
+                else:
+                    return redirect('homepage')  # Redirect for other roles
+            else:
+                messages.error(request, 'User role not found')
+                return redirect('index')  # Redirect back to the login page
+
+        else:
+            # Show an error message if authentication fails
+            messages.error(request, 'Invalid email or password')
+            return redirect('index')  # Redirect back to the login page
+
+    if request.user.is_authenticated:
+        # Pass user-specific information to the template
+        context = {
+            'user_email': request.user.email,
+            'user_name': request.user.fname,
+        }
+        return render(request, 'homepage.html', context)
+
+    return render(request, 'homepage.html')
 
 def registration(request):
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            # Save the account using the form's save method
-            account = form.save(commit=False)
-            account.set_password(form.cleaned_data['password'])  # Hash the password
-            account.save()
-            messages.success(request, 'Registration successful! You can now log in.')
-            return redirect('index')  # Redirect to the index or another page after registration
-    else:
-        form = RegistrationForm()
+        # Retrieve form data
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        first_name = request.POST.get('fname')
+        last_name = request.POST.get('lname')
+        number = request.POST.get('phone')
+        address = request.POST.get('address')
+        confirm_password = request.POST.get('confirm_password')
 
-    return render(request, 'reg.html', {'form': form})
+        if password != confirm_password:
+            return render(request, 'SignUp.html', {'error': 'Passwords do not match'})
+
+        new_account = Accounts(
+            email=email,
+            password=password,  
+            fname=first_name,
+            lname=last_name,
+            number=number,
+            address=address
+        )
+        new_account.save()  
+        
+        return redirect('index')
+
+    return render(request, 'SignUp.html')
+
+@login_required  # Ensure only logged-in users can access the owner homepage
+def owner(request):
+    # Pass user-specific data to the template for personalization
+    context = {
+        'user_email': request.user.email,
+        'user_name': request.user.first_name,
+    }
+    return render(request, 'homepage_owner.html', context)
 
 @login_required
-def owner(request):
-    user = request.user  # Get the logged-in user
-    print(f"Logged in user: {user.username}")
+def vet(request):
+    return render(request, "VetWindow.html")
 
-    try:
-        # Assuming Accounts has a OneToOne relation with User
-        account = Accounts.objects.get(user=user)
-        first_name = account.first_name  # Correct field name
-        print(f"First Name: {first_name}")
-    except Accounts.DoesNotExist:
-        first_name = None
-        print("No account found for this user.")
-
-    return render(request, "homepage.html", {  # Assuming you want to render homepage
-        'fname': first_name
-    })
-
-def login_view(request):
-    if request.method == 'POST':
-        form = CustomLoginForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-
-            # Retrieve user account details
-            account = Accounts.objects.get(email=user.email)
-            request.session['fname'] = account.fname
-            request.session['lname'] = account.lname
-
-            # Redirect users based on their role
-            if user.is_superuser:
-                return JsonResponse({'success': True, 'redirect_url': '/admin/'})
-            else:
-                return JsonResponse({'success': True, 'redirect_url': request.META.get('HTTP_REFERER', '/')})
-        else:
-            return JsonResponse({'success': False, 'message': 'Invalid email or password'})
-    else:
-        form = CustomLoginForm()
-    return render(request, 'login.html', {'form': form})
-
-
-
-
-
-def public_view(request):
-    return render(request, 'login.html')
+@login_required
+def admin(request):
+    return render(request, 'AppointSched.html')
 
 
 def forgot(request):
