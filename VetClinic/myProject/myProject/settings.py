@@ -90,7 +90,11 @@ DATABASES = {
     }
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 AUTH_USER_MODEL = "VetClinic.Accounts" 
+=======
+AUTH_USER_MODEL = 'VetClinic.Accounts'
+>>>>>>> parent of 94007b9 (Updated)
 =======
 AUTH_USER_MODEL = 'VetClinic.Accounts'
 >>>>>>> parent of 94007b9 (Updated)
