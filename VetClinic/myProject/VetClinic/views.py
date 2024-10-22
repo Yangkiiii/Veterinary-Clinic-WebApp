@@ -1,9 +1,6 @@
-from django.contrib.auth.hashers import make_password, check_password
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .models import Accounts
-
 
 def index(request):
     if request.method == 'POST':
@@ -19,7 +16,7 @@ def index(request):
             })
 
         # Verify the password
-        if account.verify_password(password):
+        if account.password == password:  # Directly check the stored plain password
             request.session['fname'] = account.fname
             return redirect('owner')
         else:
@@ -45,13 +42,13 @@ def registration(request):
         if password != confirm_password:
             return render(request, 'reg.html', {'error': 'Passwords do not match'})
 
-        # Hash the password before saving
-        hashed_password = make_password(password)
+        # Store the plain password (not secure)
+        plain_password = password
 
         # Create the new account
         new_account = Accounts(
             email=email,
-            password=password,  # Store the hashed password
+            password=plain_password,  # Store the plain password (not secure)
             fname=first_name,
             lname=last_name,
             number=number,
