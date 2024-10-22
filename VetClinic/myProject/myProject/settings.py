@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'myProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'vetclinic',
+        'NAME': 'veterinaryclinic',
         'USER': 'root',
         'PASSWORD': '',
         'Host': 'localhost',
@@ -89,7 +89,11 @@ DATABASES = {
         
     }
 }
+<<<<<<< HEAD
 AUTH_USER_MODEL = "VetClinic.Accounts" 
+=======
+AUTH_USER_MODEL = 'VetClinic.Accounts'
+>>>>>>> parent of 94007b9 (Updated)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
